@@ -16,6 +16,7 @@ Changelog:
     - dunno working on it..
 
 This will be in the future :)
+
 * v 1.0:
     - Initial release
 
