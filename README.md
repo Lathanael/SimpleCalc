@@ -6,7 +6,8 @@ Changelog:
     - Initial start of plugin
 * v 0.2:
     - Not yet reached
-    .
-    .
+
+This will be in the future :)
+
 * v 1.0:
     - Initial release
