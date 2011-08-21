@@ -19,7 +19,7 @@ This will be in the future :)
 Lincense:
 ---------
 
-Copyright (C) <2011>  <Philippe Leipold>
+Copyright &copy 2011  Philippe Leipold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
