@@ -7,12 +7,15 @@ The source will be published under GNU GPL: http://www.gnu.org/licenses/
 Changelog:
 ----------
 * v 0.1:
-    - Initial start of plugin
+    - Initial start of coding the plugin
 * v 0.2:
-    - Not yet reached
+    - Added all math functions i thought would be nice to have
+* v 0.3:
+    - Added RegEx functions for normal 2 arguments calculation (this means we do have a working calculator \o/)
+* v 0.4:
+    - dunno working on it..
 
 This will be in the future :)
-
 * v 1.0:
     - Initial release
 
