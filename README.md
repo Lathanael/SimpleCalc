@@ -1,8 +1,7 @@
-I will upload the source code of SimpleCalc here soon!
+### Current version: 1.0
 
-The source will be published under GNU GPL: http://www.gnu.org/licenses/
-
-
+The source is published under GNU GPL: http://www.gnu.org/licenses/
+For more see License section below!
 
 Changelog:
 ----------
