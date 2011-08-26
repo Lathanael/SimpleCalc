@@ -6,16 +6,27 @@ The source will be published under GNU GPL: http://www.gnu.org/licenses/
 
 Changelog:
 ----------
+Version 0.1 to 0.9 are merely a list of my development progression:
+
 * v 0.1:
     - Initial start of coding the plugin
 * v 0.2:
     - Added all math functions i thought would be nice to have
 * v 0.3:
-    - Added RegEx functions for normal 2 arguments calculation (this means we do have a working calculator \o/)
+    - Added RegEx functions for normal 2 arguments calculation (this means we do have a working 2 values calculator \o/)
 * v 0.4:
-    - dunno working on it..
+    - Started working on a parser to make complex calculations possible
+* v 0.5:
+    - Removed original RegEx functions
+    - Created logic for the parser
+* v 0.6:
+    - Created logic to compute the given equation
+* v 0.7:
+    - Created my own Exception class to pass through parser errors
+* v 0.8 and 0.9:
+    - Several bug fixes and corrections
 
-This will be in the future :)
+---------------------------
 
 * v 1.0:
     - Initial release
