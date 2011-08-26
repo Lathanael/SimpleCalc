@@ -1,0 +1,12 @@
+main: de.Lathanael.SimpleCalc.SimpleCalc
+name: SimpleCalc
+description: Simple calculator for Bukkit
+author: Lathanael
+version: 1.0
+
+commands:
+    simple_calc:
+        description: Used to initiate a calculation
+        aliases: [calc, scalc]
+        usage: |
+            /<command> - To calculate an equation simply type /<command> [expression], e.g. /<command> 5+3
