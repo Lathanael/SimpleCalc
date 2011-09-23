@@ -27,3 +27,7 @@ Desktop.ini
 #Java
 *.class
 *.jar
+/parseMathExp.java
+/Operator.java
+/Config.java
+/target
