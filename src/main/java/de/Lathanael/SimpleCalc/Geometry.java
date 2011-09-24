@@ -28,6 +28,9 @@ package de.Lathanael.SimpleCalc;
 public class Geometry {
 	private int left, right, top, bottom;
 
+	public Geometry () {
+	}
+
 	public Geometry (int left, int right, int top, int bottom) {
 		this.left = left;
 		this.right = right;

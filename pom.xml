@@ -16,6 +16,15 @@
             <includes>
                 <include>plugin.yml</include>
             </includes>
+            <excludes>
+            </excludes>
+        </resource>
+        <resource>
+        	<targetPath>.</targetPath>
+        	<directory>${basedir}/src/main/resources/</directory>
+        	<excludes>
+        		<exclude>CalcBackground.png</exclude>
+        	</excludes>
         </resource>
     </resources>
   </build>

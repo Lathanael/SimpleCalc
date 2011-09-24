@@ -20,6 +20,8 @@
 
 package de.Lathanael.SimpleCalc;
 
+import java.text.DecimalFormat;
+
 import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.Button;
 import org.getspout.spoutapi.gui.GenericButton;
@@ -28,6 +30,7 @@ import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.GenericTextField;
 import org.getspout.spoutapi.gui.GenericTexture;
 import org.getspout.spoutapi.gui.Label;
+import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.TextField;
 import org.getspout.spoutapi.gui.Texture;
 import org.getspout.spoutapi.gui.Widget;
@@ -40,14 +43,15 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class CalcWindow extends GenericPopup {
 	private Texture background;
-	private Geometry edges;
+	private Geometry edges = new Geometry();
 	private TextField expression, result;
 	private Label label;
 	private String title = "SimpleCalc";
 	private SpoutPlayer player;
 	private Button one, two, three, four, five, six, seven, eight, nine, zero;
-	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal;
+	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, bAC, bDEL;
 	private Button close, hide;
+	private DecimalFormat format = new DecimalFormat("#0.00");
 
 	public CalcWindow (SpoutPlayer player, SimpleCalc plugin) {
 		this.player = player;
@@ -55,7 +59,8 @@ public class CalcWindow extends GenericPopup {
 		int screenWidth = player.getMainScreen().getWidth();
 		int screenHeight = player.getMainScreen().getHeight();
 		background.setHeight(166).setWidth(100).setX((screenWidth - 100)/2).setY((screenHeight-166)/2);
-		edges.setLeft((screenWidth-90)/2);
+		background.setPriority(RenderPriority.Highest);
+		edges.setLeft((Integer) ((screenWidth-90)/2));
 		edges.setRight(background.getX()+background.getWidth()-10);
 		edges.setTop(background.getY()+10);
 		edges.setBottom(background.getHeight()+background.getY()-10);
@@ -64,11 +69,11 @@ public class CalcWindow extends GenericPopup {
 		attachWidget(plugin, label);
 		attachWidget(plugin, background);
 		close = new GenericButton(ChatColor.WHITE + "X");
-		close.setHeight(10).setWidth(10).setX(edges.getRight()).setY(edges.getTop());
+		close.setHeight(10).setWidth(10).setX(edges.getRight()-5).setY(edges.getTop());
 		close.setTooltip("Close the Window");
 		attachWidget(plugin, close);
 		hide = new GenericButton(ChatColor.WHITE + "_");
-		hide.setHeight(10).setWidth(10).setX(edges.getRight()-25).setY(edges.getTop());
+		hide.setHeight(10).setWidth(10).setX(edges.getRight()-15).setY(edges.getTop());
 		hide.setTooltip("Hide the Window");
 		attachWidget(plugin, hide);
 		one = new GenericButton(ChatColor.WHITE + "1");
@@ -107,6 +112,12 @@ public class CalcWindow extends GenericPopup {
 		equal = new GenericButton(ChatColor.WHITE + "=");
 		equal.setHeight(10).setWidth(10).setX(edges.getLeft() + 15).setY(edges.getTop() + 105);
 		attachWidget(plugin, equal);
+		bAC = new GenericButton(ChatColor.WHITE + "AC");
+		bAC.setHeight(10).setWidth(20).setX(edges.getLeft() + 30).setY(edges.getTop() + 105);
+		attachWidget(plugin, bAC);
+		bDEL = new GenericButton(ChatColor.WHITE + "DEL");
+		bDEL.setHeight(10).setWidth(20).setX(edges.getLeft() + 55).setY(edges.getTop() + 105);
+		attachWidget(plugin, bDEL);
 		plus = new GenericButton(ChatColor.WHITE + "+");
 		plus.setHeight(10).setWidth(10).setX(edges.getLeft()).setY(edges.getTop() + 120);
 		attachWidget(plugin, plus);
@@ -167,73 +178,96 @@ public class CalcWindow extends GenericPopup {
 	}
 
 	public void onClick(Button button) {
-		if (button.equals(close))
+		if (button.equals(close)) {
 			SimpleCalc.getInstance().removePopup(player);
+			close();
+		}
 		else if (button.equals(hide))
 			hide();
 		else if (button.equals(equal)) {
 			String calc = expression.getText();
-			calc.replaceAll(" ", "");
+			calc = calc.replaceAll(" ", "");
+			calc = calc.replaceAll(",", ".");
+			player.sendMessage(calc);
 			try {
 				MathExpParser eqaution = new MathExpParser(calc);
 				double result = eqaution.compute();
-				this.result.setText(String.valueOf(result));
+				this.result.setText(format.format(result));
+				this.result.setDirty(true);
 			}
 			// The equation given is incorrect!
 			catch(MathSyntaxMismatch mismatch){
 				this.result.setText(ChatColor.RED + "Error");
+				this.result.setDirty(true);
 			}
 		}
 		else if (button.equals(one)) {
 			expression.setText(expression.getText() + "1");
+			expression.setDirty(true);
 		}
 		else if (button.equals(two)) {
 			expression.setText(expression.getText() + "2");
+			expression.setDirty(true);
 		}
 		else if (button.equals(three)) {
 			expression.setText(expression.getText() + "3");
+			expression.setDirty(true);
 		}
 		else if (button.equals(four)) {
 			expression.setText(expression.getText() + "4");
+			expression.setDirty(true);
 		}
 		else if (button.equals(five)) {
 			expression.setText(expression.getText() + "5");
+			expression.setDirty(true);
 		}
 		else if (button.equals(six)) {
 			expression.setText(expression.getText() + "6");
+			expression.setDirty(true);
 		}
 		else if (button.equals(seven)) {
 			expression.setText(expression.getText() + "7");
+			expression.setDirty(true);
 		}
 		else if (button.equals(eight)) {
 			expression.setText(expression.getText() + "8");
+			expression.setDirty(true);
 		}
 		else if (button.equals(nine)) {
 			expression.setText(expression.getText() + "9");
+			expression.setDirty(true);
 		}
 		else if (button.equals(zero)) {
 			expression.setText(expression.getText() + "0");
+			expression.setDirty(true);
 		}
 		else if (button.equals(plus)) {
 			expression.setText(expression.getText() + "+");
+			expression.setDirty(true);
 		}
 		else if (button.equals(minus)) {
 			expression.setText(expression.getText() + "-");
+			expression.setDirty(true);
 		}
 		else if (button.equals(multiply)) {
 			expression.setText(expression.getText() + "*");
+			expression.setDirty(true);
 		}
 		else if (button.equals(divide)) {
 			expression.setText(expression.getText() + "/");
+			expression.setDirty(true);
 		}
 		else if (button.equals(power)) {
 			expression.setText(expression.getText() + "^");
+			expression.setDirty(true);
 		}
 		else if (button.equals(remainder)) {
 			expression.setText(expression.getText() + "%");
+			expression.setDirty(true);
 		}
 		else if (button.equals(comma)) {
 			expression.setText(expression.getText() + ",");
+			expression.setDirty(true);
 		}
 	}
 }

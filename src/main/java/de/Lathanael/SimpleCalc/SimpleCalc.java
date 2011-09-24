@@ -18,6 +18,7 @@
 
 package de.Lathanael.SimpleCalc;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -47,6 +48,7 @@ public class SimpleCalc extends JavaPlugin{
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
 	private static PluginListener SCPluginListener = new PluginListener();
 	private static PlayerListener SCPlayerListener;
+	private static DecimalFormat format = new DecimalFormat("#0.00");
 
 	public void onDisable(){
 		log.info("[SimpleCalc] disabled.");
@@ -93,10 +95,10 @@ public class SimpleCalc extends JavaPlugin{
 				MathExpParser eqaution = new MathExpParser(calc);
 				double result = eqaution.compute();
 				if (sender instanceof ConsoleCommandSender){
-					log.info("[SimpleCalc] The result of your expression is: " + String.valueOf(result));
+					log.info("[SimpleCalc] The result of your expression is: " + format.format(result));
 				}
 				else {
-					sender.sendMessage(ChatColor.GREEN + "The result of your expression is: " + String.valueOf(result));
+					sender.sendMessage(ChatColor.GREEN + "The result of your expression is: " + format.format(result));
 				}
 			}
 			// The equation given is incorrect!

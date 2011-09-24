@@ -76,8 +76,9 @@ public class Functions {
 			buffer.append(a[i]);
 		}
 		result = buffer.toString();
-		// Lets remove all the unwanted whitespaces too
-		result.replaceAll(" ", "");
+		// Lets remove/replace all the unwanted whitespaces and commas too
+		result = result.replaceAll(" ", "");
+		result = result.replaceAll(",", ".");
 		return result;
 	}
 	public static String StingConcat(String a, String b) {

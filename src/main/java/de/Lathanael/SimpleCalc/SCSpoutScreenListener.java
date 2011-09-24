@@ -1,11 +1,11 @@
 package de.Lathanael.SimpleCalc;
 
-import org.getspout.spoutapi.event.input.InputListener;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
+import org.getspout.spoutapi.event.screen.ScreenListener;
 import org.getspout.spoutapi.gui.Screen;
 
-public class SCSpoutScreenListener extends InputListener {
+public class SCSpoutScreenListener extends ScreenListener {
 
 	@SuppressWarnings("unused")
 	private SimpleCalc plugin;
@@ -14,7 +14,7 @@ public class SCSpoutScreenListener extends InputListener {
 		plugin = instance;
 	}
 
-	public void onButtonClock (ButtonClickEvent event) {
+	public void onButtonClick (ButtonClickEvent event) {
 		Screen screen = event.getScreen();
 		if(screen instanceof CalcWindow) {
 			CalcWindow window = ((CalcWindow)screen);
@@ -22,11 +22,11 @@ public class SCSpoutScreenListener extends InputListener {
 		}
 	}
 
-	public void onScreenClose(ScreenCloseEvent event) {
-		Screen screen = event.getScreen();
-		if(screen instanceof CalcWindow) {
-			CalcWindow window = ((CalcWindow)screen);
-			window.hide();
-		}
-	}
+//	public void onScreenClose(ScreenCloseEvent event) {
+//		Screen screen = event.getScreen();
+//		if(screen instanceof CalcWindow) {
+//			CalcWindow window = ((CalcWindow)screen);
+//			window.close();
+//		}
+//	}
 }
