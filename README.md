@@ -29,6 +29,11 @@ Version 0.1 to 0.9 are merely a list of my development progression:
 
 * v 1.0:
     - Initial release
+* v 2.0
+    - BUGFIX: Commas threw an error instead of beeing accepted
+    - FEATURE: Spout support. You can now use /calc to open a Calculator Window
+    - Update to CB #1185
+
 
 Lincense:
 ---------

@@ -50,7 +50,7 @@ public class CalcWindow extends GenericPopup {
 	private String title = "SimpleCalc";
 	private SpoutPlayer player;
 	private Button one, two, three, four, five, six, seven, eight, nine, zero;
-	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, bAC, bDEL;
+	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, ac, del, sqrt;
 	private Button close, hide;
 	private DecimalFormat format = new DecimalFormat("#0.00");
 
@@ -127,14 +127,14 @@ public class CalcWindow extends GenericPopup {
 		equal.setAlign(WidgetAnchor.CENTER_CENTER);
 		equal.setHeight(10).setWidth(10).setX(edges.getLeft() + 15).setY(edges.getTop() + 105);
 		attachWidget(plugin, equal);
-		bAC = new GenericButton(ChatColor.WHITE + "AC");
-		bAC.setAlign(WidgetAnchor.CENTER_CENTER);
-		bAC.setHeight(10).setWidth(20).setX(edges.getLeft() + 30).setY(edges.getTop() + 105);
-		attachWidget(plugin, bAC);
-		bDEL = new GenericButton(ChatColor.WHITE + "DEL");
-		bDEL.setAlign(WidgetAnchor.CENTER_CENTER);
-		bDEL.setHeight(10).setWidth(25).setX(edges.getLeft() + 55).setY(edges.getTop() + 105);
-		attachWidget(plugin, bDEL);
+		ac = new GenericButton(ChatColor.WHITE + "AC");
+		ac.setAlign(WidgetAnchor.CENTER_CENTER);
+		ac.setHeight(10).setWidth(20).setX(edges.getLeft() + 30).setY(edges.getTop() + 105);
+		attachWidget(plugin, ac);
+		del = new GenericButton(ChatColor.WHITE + "DEL");
+		del.setAlign(WidgetAnchor.CENTER_CENTER);
+		del.setHeight(10).setWidth(25).setX(edges.getLeft() + 55).setY(edges.getTop() + 105);
+		attachWidget(plugin, del);
 		plus = new GenericButton(ChatColor.WHITE + "+");
 		plus.setAlign(WidgetAnchor.CENTER_CENTER);
 		plus.setHeight(10).setWidth(10).setX(edges.getLeft()).setY(edges.getTop() + 120);
@@ -167,6 +167,9 @@ public class CalcWindow extends GenericPopup {
 		rightParan.setAlign(WidgetAnchor.CENTER_CENTER);
 		rightParan.setHeight(10).setWidth(10).setX(edges.getLeft() + 45).setY(edges.getTop() + 135);
 		attachWidget(plugin, rightParan);
+		sqrt = new GenericButton(ChatColor.WHITE + "√");
+		sqrt.setAlign(WidgetAnchor.CENTER_CENTER);
+		sqrt.setVisible(false);
 		initialisePopup();
 	}
 
@@ -213,7 +216,6 @@ public class CalcWindow extends GenericPopup {
 			String calc = expression.getText();
 			calc = calc.replaceAll(" ", "");
 			calc = calc.replaceAll(",", ".");
-			player.sendMessage(calc);
 			try {
 				MathExpParser eqaution = new MathExpParser(calc);
 				double result = eqaution.compute();
@@ -294,13 +296,13 @@ public class CalcWindow extends GenericPopup {
 			expression.setText(expression.getText() + ",");
 			expression.setDirty(true);
 		}
-		else if (button.equals(bAC)) {
+		else if (button.equals(ac)) {
 			expression.setText("");
 			expression.setDirty(true);
 		}
-		else if (button.equals(bDEL)) {
+		else if (button.equals(del)) {
 			String text = expression.getText();
-			text = text.substring(0, text.length()-2);
+			text = text.substring(0, text.length()-1);
 			expression.setText(text);
 			expression.setDirty(true);
 		}

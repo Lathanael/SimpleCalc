@@ -51,7 +51,7 @@ public class SimpleCalc extends JavaPlugin{
 	private static DecimalFormat format = new DecimalFormat("#0.00");
 
 	public void onDisable(){
-		log.info("[SimpleCalc] disabled.");
+		log.info("[SimpleCalc] Version " + this.getDescription().getVersion() + " disabled.");
 	}
 
 	public void onEnable(){
