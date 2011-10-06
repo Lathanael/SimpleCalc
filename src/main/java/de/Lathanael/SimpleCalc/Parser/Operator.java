@@ -58,7 +58,7 @@ public class Operator{
 				break;
 			default:
 				// It is not an Operator!
-				throw new MathSyntaxMismatch();
+				throw new MathSyntaxMismatch("Token is not a known operator!");
 		}
 		// Check associative status
 		switch (operatorText.charAt(1)){
@@ -76,7 +76,7 @@ public class Operator{
 				break;
 			default:
 				// It is not an Operator!
-				throw new MathSyntaxMismatch();
+				throw new MathSyntaxMismatch("Token is not a known operator!");
 		}
 		this.sOperator = operatorText;
 	}
@@ -113,7 +113,7 @@ public class Operator{
 		return this.binary;
 	}
 
-	// Check the Operatortype and execute its operation
+	// Check the Operator type and execute its operation
 	public double execute(double[] operands){
 		if (sOperator.equals("bl+")){
 			return func.add(operands[0], operands[1]);
@@ -137,7 +137,7 @@ public class Operator{
 			return -operands[0];
 		}
 		else{
-			throw new MathSyntaxMismatch();
+			throw new MathSyntaxMismatch("Can't compute the result for the unkown operator!");
 		}
 	}
 }

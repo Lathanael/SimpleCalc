@@ -128,8 +128,7 @@ public class MathExpParser{
 						operator.pop();
 					}
 					catch (EmptyStackException e){
-						// Misplaced parenthesis
-						throw new MathSyntaxMismatch();
+						throw new MathSyntaxMismatch("Misplaced parenthesis!");
 					}
 					break;
 
@@ -139,8 +138,7 @@ public class MathExpParser{
 		while (!operator.empty()){
 			current = operator.pop();
 			if (getType(current) == LEFTPAREN){
-				// There are misplaced parenthesis
-				throw new MathSyntaxMismatch();
+				throw new MathSyntaxMismatch("Misplaced parenthesis!");
 			}
 			// Pop the operator onto the result queue
 			result.push(current);
@@ -168,7 +166,7 @@ public class MathExpParser{
 		}
 		if (prec1 == -1 || prec2 == -1){
 			// Operator mismatch
-			throw new MathSyntaxMismatch();
+			throw new MathSyntaxMismatch("No operators or unkown operators given!");
 		}
 		// Is operator left associative
 		if (oper1.isLeft()){
@@ -281,7 +279,7 @@ public class MathExpParser{
 		}
 		else{
 			// The given expression can't be parsed as an equation
-			throw new MathSyntaxMismatch();
+			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
 		}
 	}
 
@@ -290,7 +288,7 @@ public class MathExpParser{
 	public double compute(){
 		if (!done){
 			// Equation could not be parsed!
-			throw new MathSyntaxMismatch();
+			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
 		}
 		// Clone result to save it
 		Stack<Object> temp = (Stack<Object>) result.clone();
@@ -323,16 +321,16 @@ public class MathExpParser{
 				}
 				else{
 					// The stack contains an invalid token
-					throw new MathSyntaxMismatch();
+					throw new MathSyntaxMismatch("The expression contains an invalid token!");
 				}
 			}
 			// Token is neither, Parser failed to read the equation correctly
 			else{
 				// The stack contains an invalid token
-				throw new MathSyntaxMismatch();
+				throw new MathSyntaxMismatch("The expression contains an invalid token!");
 			}
 		}
 		// The stack is empty as it wasn't parsed correctly
-		throw new MathSyntaxMismatch();
+		throw new MathSyntaxMismatch("The parsed expression is empty, nothing to compute!");
 	}
 }

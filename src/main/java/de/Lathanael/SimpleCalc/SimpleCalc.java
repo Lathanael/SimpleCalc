@@ -112,10 +112,10 @@ public class SimpleCalc extends JavaPlugin{
 			// The equation given is incorrect!
 			catch(MathSyntaxMismatch mismatch){
 				if (sender instanceof ConsoleCommandSender){
-					log.info("[SimpleCalc] Could not parse your expression.");
+					log.info("[SimpleCalc] " + mismatch.getMessage());
 				}
 				else {
-					sender.sendMessage(ChatColor.RED + "Could not parse your expression.");
+					sender.sendMessage(ChatColor.RED + "[SimpleCalc] " + mismatch.getMessage());
 				}
 			}
 			return true;

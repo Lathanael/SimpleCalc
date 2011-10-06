@@ -228,7 +228,7 @@ public class CalcWindow extends GenericPopup {
 			}
 			// The equation given is incorrect!
 			catch(MathSyntaxMismatch mismatch){
-				this.result.setText(ChatColor.RED + "Error");
+				this.result.setText(ChatColor.RED + mismatch.getMessage());
 				this.result.setDirty(true);
 			}
 		}
