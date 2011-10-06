@@ -1,9 +1,11 @@
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Listeners;
 
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import de.Lathanael.SimpleCalc.SimpleCalc;
 
 public class SCPlayerListener extends PlayerListener {
 

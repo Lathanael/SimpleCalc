@@ -18,7 +18,7 @@
  *
  ***************************************************************************/
 
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Window;
 
 import java.text.DecimalFormat;
 
@@ -36,6 +36,10 @@ import org.getspout.spoutapi.gui.Texture;
 import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import de.Lathanael.SimpleCalc.SimpleCalc;
+import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 
 /**
 * @author Lathanael (aka Philippe Leipold)

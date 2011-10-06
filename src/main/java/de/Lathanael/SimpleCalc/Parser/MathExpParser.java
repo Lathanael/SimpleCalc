@@ -18,13 +18,15 @@
  *
  ******************************************************************************/
 
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Parser;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 
 /**
 * @author Lathanael (aka Philippe Leipold)

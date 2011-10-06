@@ -18,7 +18,7 @@
  *
  ******************************************************************************/
 
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Exceptions;
 
 /**
 * @author Lathanael (aka Philippe Leipold)

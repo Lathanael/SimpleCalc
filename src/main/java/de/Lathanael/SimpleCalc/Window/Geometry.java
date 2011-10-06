@@ -18,7 +18,7 @@
  *
  ***************************************************************************/
 
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Window;
 
 /**
 * @author Lathanael (aka Philippe Leipold)

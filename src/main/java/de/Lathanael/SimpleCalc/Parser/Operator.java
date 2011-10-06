@@ -18,7 +18,10 @@
  *
  ******************************************************************************/
 
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Parser;
+
+import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+import de.Lathanael.SimpleCalc.Tools.Functions;
 
 /**
 * @author Lathanael (aka Philippe Leipold)

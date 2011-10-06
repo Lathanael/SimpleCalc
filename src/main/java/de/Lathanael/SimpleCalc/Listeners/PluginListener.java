@@ -1,10 +1,12 @@
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Listeners;
 
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+
+import de.Lathanael.SimpleCalc.SimpleCalc;
 
 public class PluginListener extends ServerListener {
 

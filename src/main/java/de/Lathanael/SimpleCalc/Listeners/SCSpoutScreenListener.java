@@ -1,8 +1,11 @@
-package de.Lathanael.SimpleCalc;
+package de.Lathanael.SimpleCalc.Listeners;
 
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.event.screen.ScreenListener;
 import org.getspout.spoutapi.gui.Screen;
+
+import de.Lathanael.SimpleCalc.SimpleCalc;
+import de.Lathanael.SimpleCalc.Window.CalcWindow;
 
 public class SCSpoutScreenListener extends ScreenListener {
 
