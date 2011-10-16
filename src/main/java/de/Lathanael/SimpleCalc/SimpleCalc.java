@@ -28,6 +28,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerListener;
@@ -54,6 +55,7 @@ public class SimpleCalc extends JavaPlugin{
 	public static PluginManager pm;
 	private static SimpleCalc instance;
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
+	public static Map<String, Double> answer = new HashMap<String, Double>();
 	private static PluginListener SCPluginListener = new PluginListener();
 	private static PlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
@@ -100,8 +102,19 @@ public class SimpleCalc extends JavaPlugin{
 			String calc = Functions.arrayConcat(args);
 			// Create a new parser object and let itparse the input String
 			try {
-				MathExpParser eqaution = new MathExpParser(calc);
-				double result = eqaution.compute();
+				MathExpParser equation = null;
+				double result = 0;
+				if (sender instanceof ConsoleCommandSender) {
+					equation = new MathExpParser(calc, "Admin");
+					result = equation.compute();
+					answer.put("Admin", result);
+				}
+				else {
+					equation = new MathExpParser(calc, ((Player) sender).getName());
+					result = equation.compute();
+					answer.put(((Player) sender).getName(), result);
+				}
+
 				if (sender instanceof ConsoleCommandSender){
 					log.info("[SimpleCalc] The result of your expression is: " + format.format(result));
 				}

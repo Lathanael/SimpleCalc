@@ -221,7 +221,7 @@ public class CalcWindow extends GenericPopup {
 			calc = calc.replaceAll(" ", "");
 			calc = calc.replaceAll(",", ".");
 			try {
-				MathExpParser eqaution = new MathExpParser(calc);
+				MathExpParser eqaution = new MathExpParser(calc, player.getName());
 				double result = eqaution.compute();
 				this.result.setText(format.format(result));
 				this.result.setDirty(true);

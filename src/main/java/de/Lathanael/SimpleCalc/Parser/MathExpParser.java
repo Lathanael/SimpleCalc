@@ -44,9 +44,10 @@ public class MathExpParser{
 	private String equation;
 	private int counter;
 	private boolean done;
+	private String playerName;
 
-	// Numbers to be recognized(e.g.: 1.0 | .34 | 123 | 1,12 | ,646)
-	private static Pattern rNumbers = Pattern.compile("(\\d*[.|\\.]?\\d+)" + "|(\\d+)"); // Compiling patterns is faster if it is called more often
+	// Numbers to be recognized(e.g.: 1.0 | .34 | 123 | 0.345)
+	private static Pattern rNumbers = Pattern.compile("(\\d*[.|\\.]?\\d+)" + "|(\\d+)"); // Pre-Compiling a pattern is faster if it is called more often
 	private Matcher mNumbers;
 
 	// Operators variables
@@ -55,22 +56,29 @@ public class MathExpParser{
 	// Operator precedence, e.g. * > + (the higher the index, the higher the precedence. same index = same precedence
 	private String[] operPrecedence = {"bl+ bl-", "bl* bl% bl/", "un-", "br^"};
 
+	//Functions to be recognized
+	private Pattern rFunctions = Pattern.compile("[a-zA-Z]+[_1-9a-zA-Z]*");
+	private Matcher mFunctions;
+
 	// Constants declaring the type of operator
 	private static final char INVALID = 'i';
 	private static final char DIGITS = 'd';
 	private static final char OPERATOR = 'o';
 	private static final char LEFTPAREN = 'l';
 	private static final char RIGHTPAREN = 'r';
+	private static final char FUNCTION = 'f';
 
 	// Creates empty Parser if nothing is given
 	public MathExpParser(){
 	}
 
 	// Creates a new parser for the given equation
-	public MathExpParser(String equation){
+	public MathExpParser(String equation, String playerName){
 		// Set the variables
 		mNumbers = rNumbers.matcher(equation);
 		mOperators = rOperators.matcher(equation);
+		mFunctions = rFunctions.matcher(equation);
+		this.playerName = playerName;
 		this.equation = equation;
 
 		// Now call the parser to build the RPN equivalent of the equation
@@ -113,8 +121,18 @@ public class MathExpParser{
 					// push current onto the stack.
 					operator.push(current);
 					break;
+				// If the token == function push it onto the stack.
+				case FUNCTION:
+					operator.push(current);
+					break;
 				// If token == left parenthesis push it onto the stack
 				case LEFTPAREN:
+					if (getType(previous) == FUNCTION) {
+						// previous item was a function set args to 0
+						UnaryFunctions temp = (UnaryFunctions) operator.pop();
+						temp.setArgCount(1);
+						operator.push(temp);
+					}
 					operator.push(current);
 					break;
 				// If token == right parenthesis:
@@ -126,12 +144,15 @@ public class MathExpParser{
 						}
 						// Pop the left parenthesis from the stack
 						operator.pop();
+						// If the token at the top of the stack is a function token, pop it onto the output queue.
+						if (getType(operator.peek()) == FUNCTION) {
+							result.push(operator.pop());
+						}
 					}
 					catch (EmptyStackException e){
 						throw new MathSyntaxMismatch("Misplaced parenthesis!");
 					}
 					break;
-
 			}
 		}
 		// While there are still operator tokens in the stack
@@ -207,6 +228,10 @@ public class MathExpParser{
 		else if (obj instanceof Operator){
 			return OPERATOR;
 		}
+		// Object is a Function
+		else if (obj instanceof UnaryFunctions){
+			return FUNCTION;
+		}
 		// Object is a (
 		else if (obj instanceof String && obj.equals("(")){
 			return LEFTPAREN;
@@ -277,6 +302,13 @@ public class MathExpParser{
 			counter = mOperators.end() - 1;
 			return OPERATOR;
 		}
+		// Token is a function (only Unary Functions atm!)
+		else if (mFunctions.find(counter) && mFunctions.start() == counter){
+			current = new UnaryFunctions(mFunctions.group(), playerName);
+			((UnaryFunctions) current).setArgCount(1);
+			counter = mFunctions.end();
+			return FUNCTION;
+		}
 		else{
 			// The given expression can't be parsed as an equation
 			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
@@ -323,6 +355,14 @@ public class MathExpParser{
 					// The stack contains an invalid token
 					throw new MathSyntaxMismatch("The expression contains an invalid token!");
 				}
+			}
+			// Token is a Function
+			else if (getType(token) == FUNCTION){
+				double[] args = new double[((UnaryFunctions) token).getArgCount()];
+				for (int i = args.length - 1; i >= 0; i--) {
+					args[i] = this.comp();
+				}
+				return ((UnaryFunctions) token).compute(args);
 			}
 			// Token is neither, Parser failed to read the equation correctly
 			else{
