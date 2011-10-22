@@ -30,7 +30,7 @@ public class UnaryFunctions extends Operator {
 				throw new MathSyntaxMismatch("Could not retrieve 'answer' variable.");
 			}
 		} else {
-			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not evalutae to any known function.");
+			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");
 		}
 	}
 
