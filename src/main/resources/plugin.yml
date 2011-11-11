@@ -2,7 +2,7 @@ main: de.Lathanael.SimpleCalc.SimpleCalc
 name: SimpleCalc
 description: Simple calculator for Bukkit
 author: Lathanael
-version: 2.1
+version: 2.2
 
 commands:
     simple_calc:
