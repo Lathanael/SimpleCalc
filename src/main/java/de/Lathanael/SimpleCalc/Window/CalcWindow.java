@@ -304,6 +304,14 @@ public class CalcWindow extends GenericPopup {
 			expression.setText("");
 			expression.setDirty(true);
 		}
+		else if (button.equals(leftParan)) {
+			expression.setText(expression.getText() + "(");
+			expression.setDirty(true);
+		}
+		else if (button.equals(rightParan)) {
+			expression.setText(expression.getText() + ")");
+			expression.setDirty(true);
+		}
 		else if (button.equals(del)) {
 			String text = expression.getText();
 			text = text.substring(0, text.length()-1);
