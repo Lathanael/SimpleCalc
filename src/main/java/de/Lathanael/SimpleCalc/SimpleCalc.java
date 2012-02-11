@@ -48,7 +48,7 @@ import de.Lathanael.SimpleCalc.Window.CalcWindow;
 
 public class SimpleCalc extends JavaPlugin{
 
-	public static Logger log = Logger.getLogger("Minecraft");
+	public static Logger log;
 	public static PluginManager pm;
 	private static SimpleCalc instance;
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
@@ -58,11 +58,12 @@ public class SimpleCalc extends JavaPlugin{
 	private static DecimalFormat format = new DecimalFormat("#0.00");
 
 	public void onDisable(){
-		log.info("[SimpleCalc] Version " + this.getDescription().getVersion() + " disabled.");
+		log.info("Version " + this.getDescription().getVersion() + " disabled.");
 	}
 
 	public void onEnable(){
 		instance = this;
+		log = getLogger();
 		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPlayerListener, this);
@@ -71,7 +72,7 @@ public class SimpleCalc extends JavaPlugin{
 		if (PluginListener.spout != null){
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
 		}
-		log.info("[SimpleCalc] Version " + this.getDescription().getVersion() + " enabled.");
+		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
 
 	public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args){
@@ -111,7 +112,7 @@ public class SimpleCalc extends JavaPlugin{
 				}
 
 				if (sender instanceof ConsoleCommandSender){
-					log.info("[SimpleCalc] The result of your expression is: " + format.format(result));
+					log.info("The result of your expression is: " + format.format(result));
 				}
 				else {
 					sender.sendMessage(ChatColor.GREEN + "The result of your expression is: " + format.format(result));
@@ -120,10 +121,10 @@ public class SimpleCalc extends JavaPlugin{
 			// The equation given is incorrect!
 			catch(MathSyntaxMismatch mismatch){
 				if (sender instanceof ConsoleCommandSender){
-					log.info("[SimpleCalc] " + mismatch.getMessage());
+					log.info(" " + mismatch.getMessage());
 				}
 				else {
-					sender.sendMessage(ChatColor.RED + "[SimpleCalc] " + mismatch.getMessage());
+					sender.sendMessage(ChatColor.RED + mismatch.getMessage());
 				}
 			}
 			return true;

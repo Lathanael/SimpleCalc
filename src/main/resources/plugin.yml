@@ -2,7 +2,8 @@ main: de.Lathanael.SimpleCalc.SimpleCalc
 name: SimpleCalc
 description: Simple calculator for Bukkit
 author: Lathanael
-version: 2.2
+version: ${project.version} (BUILD ${git.build.time})
+softdepend: [Spout]
 
 commands:
     simple_calc:

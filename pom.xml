@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.Lathanael</groupId>
   <artifactId>SimpleCalc</artifactId>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <name>SimpleCalc</name>
   <build>
     <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -15,16 +15,10 @@
             <directory>${basedir}/src/main/resources/</directory>
             <includes>
                 <include>plugin.yml</include>
+                <include>CalcBackground.png</include>
             </includes>
             <excludes>
             </excludes>
-        </resource>
-        <resource>
-        	<targetPath>.</targetPath>
-        	<directory>${basedir}/src/main/resources/</directory>
-        	<excludes>
-        		<exclude>CalcBackground.png</exclude>
-        	</excludes>
         </resource>
     </resources>
   </build>

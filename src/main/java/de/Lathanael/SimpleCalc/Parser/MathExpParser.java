@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+import de.Lathanael.SimpleCalc.Tools.ArgLessFunctions;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -54,7 +55,7 @@ public class MathExpParser{
 	private Pattern rOperators = Pattern.compile("([\\Q()+-*/%^\\E]{1})");
 	private Matcher mOperators;
 	// Operator precedence, e.g. * > + (the higher the index, the higher the precedence. same index = same precedence
-	private String[] operPrecedence = {"bl+ bl-", "bl* bl% bl/", "un-", "br^"};
+	private String[] operPrecedence = {"bl+ bl-", "bl* bl% bl/", "un-", "br^", "unFunc"};
 
 	//Functions to be recognized
 	private Pattern rFunctions = Pattern.compile("[a-zA-Z]+[_1-9a-zA-Z]*");
@@ -102,6 +103,10 @@ public class MathExpParser{
 					result.push(current);
 					break;
 
+				// If the token == function push it onto the stack.
+				case FUNCTION:
+					operator.push(current);
+					break;
 				// If the token is an operator, then:
 				case OPERATOR:
 					// while there is an operator at the top of the stack
@@ -121,14 +126,9 @@ public class MathExpParser{
 					// push current onto the stack.
 					operator.push(current);
 					break;
-				// If the token == function push it onto the stack.
-				case FUNCTION:
-					operator.push(current);
-					break;
 				// If token == left parenthesis push it onto the stack
 				case LEFTPAREN:
 					if (getType(previous) == FUNCTION) {
-						// previous item was a function set args to 0
 						UnaryFunctions temp = (UnaryFunctions) operator.pop();
 						temp.setArgCount(1);
 						operator.push(temp);
@@ -138,14 +138,22 @@ public class MathExpParser{
 				// If token == right parenthesis:
 				case RIGHTPAREN:
 					try{
+						// Open and Closing paranthesis where put "()" indicating a function without args
+						if (getType(operator.peek()) == LEFTPAREN) {
+							operator.pop();
+							if (getType(operator.peek()) == FUNCTION) {
+								result.push(operator.pop());
+							}
+							break;
+						}
 						while (getType(operator.peek()) != LEFTPAREN){
 							// pop operators off the stack onto the result queue
 							result.push(operator.pop());
 						}
 						// Pop the left parenthesis from the stack
 						operator.pop();
-						// If the token at the top of the stack is a function token, pop it onto the output queue.
-						if (getType(operator.peek()) == FUNCTION) {
+						// If the token at the top of the stack is a function token, pop it onto the result queue.
+						if (!operator.isEmpty() && getType(operator.peek()) == FUNCTION) {
 							result.push(operator.pop());
 						}
 					}
@@ -224,13 +232,13 @@ public class MathExpParser{
 		if (obj instanceof Double){
 			return DIGITS;
 		}
-		// Object is an Operator
-		else if (obj instanceof Operator){
-			return OPERATOR;
-		}
 		// Object is a Function
 		else if (obj instanceof UnaryFunctions){
 			return FUNCTION;
+		}
+		// Object is an Operator
+		else if (obj instanceof Operator){
+			return OPERATOR;
 		}
 		// Object is a (
 		else if (obj instanceof String && obj.equals("(")){
@@ -251,26 +259,26 @@ public class MathExpParser{
 		// set previous
 		previous = current;
 		// Token is a left parenthesis
-		if (equation.charAt(counter) == '(')		{
+		if (equation.charAt(counter) == '(') {
 			current = "(";
 			return LEFTPAREN;
 		}
 		// Token is a right parenthesis
-		else if (equation.charAt(counter) == ')'){
+		else if (equation.charAt(counter) == ')') {
 			current = ")";
 			return RIGHTPAREN;
 		}
 		// Token is a number
-		else if (mNumbers.find(counter) && mNumbers.start() == counter){
+		else if (mNumbers.find(counter) && mNumbers.start() == counter) {
 			current = Double.parseDouble(mNumbers.group());
 			counter = mNumbers.end() - 1;
 			return DIGITS;
 		}
 		// Token is an operator
-		else if (mOperators.find(counter) && mOperators.start() == counter){
+		else if (mOperators.find(counter) && mOperators.start() == counter) {
 			String opFl;
 			// Token is an unary operator
-			if (getType(previous) != DIGITS && getType(previous) != RIGHTPAREN){
+			if (getType(previous) != DIGITS && getType(previous) != RIGHTPAREN) {
 				opFl = "u";
 				// Determine the associative status of the operator
 				for (int i = 0; i < operPrecedence.length; i++){
@@ -284,7 +292,7 @@ public class MathExpParser{
 					}
 				}
 			}
-			else{
+			else {
 				opFl = "b";
 				// Determine the associative status of the operator
 				for (int i = 0; i < operPrecedence.length; i++){
@@ -303,13 +311,13 @@ public class MathExpParser{
 			return OPERATOR;
 		}
 		// Token is a function (only Unary Functions atm!)
-		else if (mFunctions.find(counter) && mFunctions.start() == counter){
+		else if (mFunctions.find(counter) && mFunctions.start() == counter) {
 			current = new UnaryFunctions(mFunctions.group(), playerName);
 			((UnaryFunctions) current).setArgCount(1);
-			counter = mFunctions.end();
+			counter = mFunctions.end() - 1;
 			return FUNCTION;
 		}
-		else{
+		else {
 			// The given expression can't be parsed as an equation
 			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
 		}
@@ -360,7 +368,12 @@ public class MathExpParser{
 			else if (getType(token) == FUNCTION){
 				double[] args = new double[((UnaryFunctions) token).getArgCount()];
 				for (int i = args.length - 1; i >= 0; i--) {
-					args[i] = this.comp();
+					try {
+						args[i] = this.comp();
+					} catch (MathSyntaxMismatch e) {
+						if (ArgLessFunctions.containsFunction(token.toString()))
+							return ((UnaryFunctions) token).compute(args);
+					}
 				}
 				return ((UnaryFunctions) token).compute(args);
 			}

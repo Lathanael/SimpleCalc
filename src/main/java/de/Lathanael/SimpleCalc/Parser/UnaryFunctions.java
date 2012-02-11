@@ -15,7 +15,7 @@ public class UnaryFunctions extends Operator {
 	* @param args
 	*/
 	public UnaryFunctions (String name, String playerName){
-		super("unFUNCTION");
+		super("unFunc");
 		this.name = name;
 		this.playerName = playerName;
 		countArg = 0;
@@ -29,6 +29,8 @@ public class UnaryFunctions extends Operator {
 			} catch (NullPointerException e) {
 				throw new MathSyntaxMismatch("Could not retrieve 'answer' variable.");
 			}
+		} else if (name.equalsIgnoreCase("sin")) {
+			return Math.sin(args[0]);
 		} else {
 			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");
 		}
@@ -46,4 +48,7 @@ public class UnaryFunctions extends Operator {
 		return countArg;
 	}
 
+	 public String toString () {
+		return name;
+	}
 }

@@ -17,7 +17,7 @@ public class PluginListener implements Listener {
 	public static void spoutHook(PluginManager pm){
 		spout = pm.getPlugin("Spout");
 		if (spout != null){
-			SimpleCalc.log.info("[SimpleCalc] Spout enabled, hooking in!");
+			SimpleCalc.log.info("Spout enabled, hooking in!");
 		}
 	}
 
@@ -25,7 +25,7 @@ public class PluginListener implements Listener {
 	public void onPluginEnable(PluginEnableEvent event){
 		if (event.getPlugin().getDescription().getName().equals("Spout") && spout == null){
 			spout = event.getPlugin();
-			SimpleCalc.log.info("[SimpleCalc] Spout enabled, hooking in!");
+			SimpleCalc.log.info("Spout enabled, hooking in!");
 		}
 	}
 
@@ -33,7 +33,7 @@ public class PluginListener implements Listener {
 	public void onPluginDisable(PluginDisableEvent event){
 		if (event.getPlugin().getDescription().getName().equals("Spout") && spout != null){
 			spout = null;
-			SimpleCalc.log.info("[SimpleCalc] Spout disabled. Disabling Spout features.");
+			SimpleCalc.log.info("Spout disabled. Disabling Spout features.");
 		}
 	}
 }
