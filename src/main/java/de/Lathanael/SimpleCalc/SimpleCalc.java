@@ -29,9 +29,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -57,7 +54,7 @@ public class SimpleCalc extends JavaPlugin{
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
 	public static Map<String, Double> answer = new HashMap<String, Double>();
 	private static PluginListener SCPluginListener = new PluginListener();
-	private static PlayerListener SCPlayerListener;
+	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
 
 	public void onDisable(){
@@ -68,13 +65,11 @@ public class SimpleCalc extends JavaPlugin{
 		instance = this;
 		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvent(Type.PLUGIN_DISABLE, SCPluginListener, Priority.Monitor, this);
-		pm.registerEvent(Type.PLUGIN_ENABLE, SCPluginListener, Priority.Monitor, this);
+		pm.registerEvents(SCPlayerListener, this);
+		pm.registerEvents(SCPluginListener, this);
 		PluginListener.spoutHook(pm);
 		if (PluginListener.spout != null){
-			pm.registerEvent(Type.CUSTOM_EVENT, new SCSpoutScreenListener(this), Priority.Normal, this);
-			pm.registerEvent(Type.PLAYER_QUIT, SCPlayerListener, Priority.Normal, this);
-			pm.registerEvent(Type.PLAYER_KICK, SCPlayerListener, Priority.Normal, this);
+			pm.registerEvents(new SCSpoutScreenListener(this), this);
 		}
 		log.info("[SimpleCalc] Version " + this.getDescription().getVersion() + " enabled.");
 	}
