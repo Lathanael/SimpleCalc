@@ -104,7 +104,6 @@ public class MathExpParser{
 					break;
 				// If the token == function push it onto the stack.
 				case FUNCTION:
-					SimpleCalc.log.info("Found function: " + current.toString());
 					operator.push(current);
 					break;
 				// If the token is an operator, then:
