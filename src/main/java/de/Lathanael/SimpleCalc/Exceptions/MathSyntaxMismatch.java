@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (C) 2011  Philippe Leipold
+ * Copyright (C) 2011 Philippe Leipold
  *
  * This file is part of SimpleCalc.
  *

@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (C) 2011  Philippe Leipold
+ * Copyright (C) 2011 Philippe Leipold
  *
  * This file is part of SimpleCalc.
  *
@@ -26,8 +26,8 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
-import de.Lathanael.SimpleCalc.Tools.ArgLessFunctions;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -102,9 +102,9 @@ public class MathExpParser{
 				case DIGITS:
 					result.push(current);
 					break;
-
 				// If the token == function push it onto the stack.
 				case FUNCTION:
+					SimpleCalc.log.info("Found function: " + current.toString());
 					operator.push(current);
 					break;
 				// If the token is an operator, then:
@@ -138,7 +138,7 @@ public class MathExpParser{
 				// If token == right parenthesis:
 				case RIGHTPAREN:
 					try{
-						// Open and Closing paranthesis where put "()" indicating a function without args
+						// Open and Closing parenthesis where put "()" indicating a function without args
 						if (getType(operator.peek()) == LEFTPAREN) {
 							operator.pop();
 							if (getType(operator.peek()) == FUNCTION) {
@@ -366,14 +366,12 @@ public class MathExpParser{
 			}
 			// Token is a Function
 			else if (getType(token) == FUNCTION){
+				UnaryFunctions temp = (UnaryFunctions) token;
 				double[] args = new double[((UnaryFunctions) token).getArgCount()];
+				if (temp.isArgLess())
+					return temp.compute(args);
 				for (int i = args.length - 1; i >= 0; i--) {
-					try {
-						args[i] = this.comp();
-					} catch (MathSyntaxMismatch e) {
-						if (ArgLessFunctions.containsFunction(token.toString()))
-							return ((UnaryFunctions) token).compute(args);
-					}
+					args[i] = this.comp();
 				}
 				return ((UnaryFunctions) token).compute(args);
 			}

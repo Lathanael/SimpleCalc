@@ -1,5 +1,5 @@
 /***************************************************************************
- * Copyright (C) 2011  Philippe Leipold
+ * Copyright (C) 2011 Philippe Leipold
  *
  * SimpleCalc is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,6 @@ import de.Lathanael.SimpleCalc.gui.CalcWindow;
 * @author Lathanael (aka Philippe Leipold)
 * https://github.com/Lathanael
 **/
-
 public class SimpleCalc extends JavaPlugin{
 
 	public static Logger log;

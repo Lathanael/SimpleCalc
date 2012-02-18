@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (C) 2011  Philippe Leipold
+ * Copyright (C) 2011 Philippe Leipold
  *
  * This file is part of SimpleCalc.
  *
@@ -31,7 +31,7 @@ import de.Lathanael.SimpleCalc.Tools.Functions;
 public class Operator{
 
 	// Class variables
-	private String  sOperator;
+	private String sOperator;
 	// Math functions
 	private Functions func = new Functions();
 	// What operator is it and what is his associative status?
