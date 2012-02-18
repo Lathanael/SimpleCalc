@@ -31,6 +31,8 @@ public class UnaryFunctions extends Operator {
 			}
 		} else if (name.equalsIgnoreCase("sin")) {
 			return Math.sin(args[0]);
+		} else if (name.equalsIgnoreCase("cos")) {
+			return Math.cos(args[0]);
 		} else if (name.equalsIgnoreCase("sqrt")) {
 			return Math.sqrt(args[0]);
 		} else {

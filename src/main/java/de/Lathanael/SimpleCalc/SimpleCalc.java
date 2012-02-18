@@ -34,12 +34,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
-import de.Lathanael.SimpleCalc.Listeners.PluginListener;
+import de.Lathanael.SimpleCalc.Listeners.SCPluginListener;
 import de.Lathanael.SimpleCalc.Listeners.SCPlayerListener;
 import de.Lathanael.SimpleCalc.Listeners.SCSpoutScreenListener;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.Tools.Functions;
-import de.Lathanael.SimpleCalc.Window.CalcWindow;
+import de.Lathanael.SimpleCalc.gui.CalcWindow;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -53,7 +53,7 @@ public class SimpleCalc extends JavaPlugin{
 	private static SimpleCalc instance;
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
 	public static Map<String, Double> answer = new HashMap<String, Double>();
-	private static PluginListener SCPluginListener = new PluginListener();
+	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
 
@@ -68,8 +68,8 @@ public class SimpleCalc extends JavaPlugin{
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPlayerListener, this);
 		pm.registerEvents(SCPluginListener, this);
-		PluginListener.spoutHook(pm);
-		if (PluginListener.spout != null){
+		SCPluginListener.spoutHook(pm);
+		if (SCPluginListener.spout != null){
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
@@ -84,7 +84,7 @@ public class SimpleCalc extends JavaPlugin{
 		if (args.length == 0){
 			if (sender instanceof ConsoleCommandSender)
 				return false;
-			if (PluginListener.spout != null){
+			if (SCPluginListener.spout != null){
 				((SpoutPlayer) sender).closeActiveWindow();
 				openWindow((SpoutPlayer) sender);
 				return true;
