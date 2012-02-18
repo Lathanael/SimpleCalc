@@ -18,6 +18,10 @@
 
 package de.Lathanael.SimpleCalc;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +32,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
 import de.Lathanael.SimpleCalc.Listeners.SCPluginListener;
 import de.Lathanael.SimpleCalc.Listeners.SCPlayerListener;
 import de.Lathanael.SimpleCalc.Listeners.SCSpoutScreenListener;
@@ -55,6 +61,9 @@ public class SimpleCalc extends JavaPlugin{
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
+	private YamlConfiguration config;
+	public static String backgroundURL;
+	public static boolean keysEnabled = false;
 
 	public void onDisable(){
 		log.info("Version " + this.getDescription().getVersion() + " disabled.");
@@ -67,9 +76,15 @@ public class SimpleCalc extends JavaPlugin{
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPlayerListener, this);
 		pm.registerEvents(SCPluginListener, this);
+		loadConfigurationFile();
+		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
 		if (SCPluginListener.spout != null){
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
+		}
+		if (keysEnabled) {
+			log.info("Listening to keystrokes while CalcWindow is open enabled");
+			pm.registerEvents(new SCInputListener(), this);
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
@@ -149,14 +164,49 @@ public class SimpleCalc extends JavaPlugin{
 	}
 
 	public void closeWindow(SpoutPlayer player, boolean remove) {
-		CalcWindow popup = null;
 		if (!popups.containsKey(player)) {
 			log.info("No window for " + player.getName() + " was found!");
 			return;
 		}
-		popup = popups.get(player);
-		popup.close();
+		player.getMainScreen().closePopup();
 		if (remove)
 			removePopup(player);
+	}
+
+	/**
+	 * @author Balor (aka Antoine Aflalo)
+	 * @author Lathanael (aka Philippe Leipold)
+	 */
+	private void loadConfigurationFile() {
+		File folder = new File(getDataFolder().getPath());
+		File file = new File(getDataFolder().getPath() + File.separator + "config.yml");
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				InputStream in = getResource("config.yml");
+				FileWriter writer = new FileWriter(file);
+				for (int i = 0; (i = in.read()) > 0;) {
+					writer.write(i);
+				}
+				writer.flush();
+				writer.close();
+				in.close();
+				config = YamlConfiguration.loadConfiguration(file);
+				config.save(file);
+			} catch (IOException e) {
+				log.info("Failed to create config.yml!");
+				e.printStackTrace();
+			}
+		} else {
+			config = YamlConfiguration.loadConfiguration(file);
+		}
+	}
+
+	private void loadConfig(YamlConfiguration config) {
+		backgroundURL = config.getString("backgroundURL", "http://dl.dropbox.com/u/42731731/CalcBackground.png");
+		keysEnabled = config.getBoolean("EnableKeys", false);
 	}
 }

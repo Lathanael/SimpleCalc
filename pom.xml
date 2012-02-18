@@ -19,8 +19,8 @@
             <filtering>true</filtering>
             <directory>${basedir}/src/main/resources/</directory>
             <includes>
-                <include>plugin.yml</include>
-                <include>CalcBackground.png</include>
+            	<include>*.yml</include>
+            	<include>CalcBackground.png</include>
                 <include>**/*.properties</include>
             </includes>
             <excludes>
