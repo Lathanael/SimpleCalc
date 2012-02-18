@@ -10,11 +10,11 @@ import org.bukkit.plugin.PluginManager;
 
 import de.Lathanael.SimpleCalc.SimpleCalc;
 
-public class PluginListener implements Listener {
+public class SCPluginListener implements Listener {
 
-	public static Plugin spout = null;
+	public Plugin spout = null;
 
-	public static void spoutHook(PluginManager pm){
+	public void spoutHook(PluginManager pm){
 		spout = pm.getPlugin("Spout");
 		if (spout != null){
 			SimpleCalc.log.info("Spout enabled, hooking in!");
