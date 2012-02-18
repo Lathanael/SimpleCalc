@@ -28,7 +28,7 @@ import org.getspout.spoutapi.gui.Screen;
 
 import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
-import de.Lathanael.SimpleCalc.gui.ExtrasButton;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasButton;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -47,7 +47,7 @@ public class SCSpoutScreenListener implements Listener {
 	public void onButtonClick (ButtonClickEvent event) {
 		Screen screen = event.getScreen();
 		if(screen instanceof CalcWindow) {
-			CalcWindow window = ((CalcWindow)screen);
+			CalcWindow window = ((CalcWindow) screen);
 			if (event.getButton() instanceof ExtrasButton)
 				window.extras.onClick(event.getButton(), window);
 			else

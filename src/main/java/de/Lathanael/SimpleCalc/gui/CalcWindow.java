@@ -40,6 +40,10 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasButton;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasLabel;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasTexture;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasWindow;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -56,8 +60,9 @@ public class CalcWindow extends GenericPopup {
 	private Button one, two, three, four, five, six, seven, eight, nine, zero;
 	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, ac, del, sqrt, ans;
 	private Button close, hide;
+	private Button scViewOn, scViewOff;
 	private DecimalFormat format = new DecimalFormat("#0.00");
-	public SienceWindow extras;
+	public ExtrasWindow extras;
 
 	public CalcWindow (SpoutPlayer player, SimpleCalc plugin) {
 		this.player = player;
@@ -182,7 +187,20 @@ public class CalcWindow extends GenericPopup {
 		sqrt.setAlign(WidgetAnchor.CENTER_CENTER);
 		sqrt.setHeight(10).setWidth(10).setX(edges.getLeft() + 60).setY(edges.getTop() + 75);
 		attachWidget(plugin, sqrt);
-		extras = new SienceWindow(edges);
+		sqrt = new GenericButton(ChatColor.WHITE + "√");
+		sqrt.setAlign(WidgetAnchor.CENTER_CENTER);
+		sqrt.setHeight(10).setWidth(10).setX(edges.getLeft() + 60).setY(edges.getTop() + 75);
+		attachWidget(plugin, sqrt);
+		scViewOn = new GenericButton(ChatColor.WHITE + ">>");
+		scViewOn.setAlign(WidgetAnchor.CENTER_CENTER);
+		scViewOn.setHeight(10).setWidth(15).setX(edges.getLeft() + 75).setY(edges.getTop() + 75);
+		attachWidget(plugin, scViewOn);
+		scViewOff = new GenericButton(ChatColor.WHITE + "<<");
+		scViewOff.setAlign(WidgetAnchor.CENTER_CENTER);
+		scViewOff.setHeight(10).setWidth(15).setX(edges.getLeft() + 75).setY(edges.getTop() + 75);
+		scViewOff.setPriority(RenderPriority.High);
+		attachWidget(plugin, scViewOff);
+		extras = new ExtrasWindow(edges);
 		extras.setVisible(false);
 		attachWidget(plugin, extras);
 
@@ -207,14 +225,48 @@ public class CalcWindow extends GenericPopup {
 		player.getMainScreen().attachPopupScreen(this);
 		setDirty(true);
 		for(Widget widget : getAttachedWidgets()) {
+			if (widget.equals(scViewOff) || widget.equals(extras))
+				continue;
+			else if (widget instanceof ExtrasTexture)
+				continue;
+			else if (widget instanceof ExtrasButton)
+				continue;
+			else if (widget instanceof ExtrasLabel)
+				continue;
 			widget.setDirty(true);
 			widget.setVisible(true);
 		}
 	}
 
+	public void openExtras() {
+		extras.setVisible(true);
+		extras.setDirty(true);
+		scViewOn.setVisible(false);
+		scViewOn.setEnabled(false);
+		scViewOn.setDirty(true);
+		scViewOff.setVisible(true);
+		scViewOff.setEnabled(true);
+		scViewOff.setDirty(true);
+	}
+
+	public void closeExtras() {
+		extras.setVisible(false);
+		extras.setDirty(true);
+		scViewOn.setVisible(true);
+		scViewOn.setEnabled(true);
+		scViewOn.setDirty(true);
+		scViewOff.setVisible(false);
+		scViewOff.setEnabled(false);
+		scViewOff.setDirty(true);
+	}
+
 	public void onClick(Button button) {
 		SimpleCalc plugin = SimpleCalc.getInstance();
-		if (button.equals(close))
+		if (button.equals(scViewOn))
+			openExtras();
+		else if (button.equals(scViewOff))
+			closeExtras();
+		else if (button.equals(close))
 			plugin.closeWindow(player, true);
 		else if (button.equals(hide))
 			plugin.closeWindow(player, false);

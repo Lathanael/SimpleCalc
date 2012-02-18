@@ -18,18 +18,17 @@
  *
  **************************************************************************/
 
-package de.Lathanael.SimpleCalc.gui;
+package de.Lathanael.SimpleCalc.gui.Extras;
 
-import org.getspout.spoutapi.gui.Button;
-import org.getspout.spoutapi.gui.GenericButton;
+import org.getspout.spoutapi.gui.GenericTexture;
 
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class ExtrasButton extends GenericButton implements Button {
+public class ExtrasTexture extends GenericTexture {
 
-	public ExtrasButton(String label) {
-		super(label);
+	public ExtrasTexture(String url) {
+		super(url);
 	}
 }

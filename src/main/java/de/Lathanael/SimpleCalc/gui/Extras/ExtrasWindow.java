@@ -18,33 +18,40 @@
  *
  **************************************************************************/
 
-package de.Lathanael.SimpleCalc.gui;
+package de.Lathanael.SimpleCalc.gui.Extras;
 
 import org.getspout.spoutapi.gui.Button;
 import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
 
+import de.Lathanael.SimpleCalc.gui.CalcWindow;
+import de.Lathanael.SimpleCalc.gui.Geometry;
+
 /**
  * @author Lathanael (aka Philippe Leipold)
  *
  */
-public class SienceWindow extends GenericContainer {
+public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
 	private ExtrasButton cos, sin;
+	private ExtrasLabel label;
 
-	public SienceWindow(Geometry edges) {
+	public ExtrasWindow(Geometry edges) {
 		tex = new ExtrasTexture("http://dl.dropbox.com/u/42731731/CalcBackground.png");
 		tex.setHeight(166).setWidth(100).setX(edges.getRight() + 15).setY(edges.getTop() - 10);
 		tex.setPriority(RenderPriority.High);
 		tex.setVisible(false);
+		label = new ExtrasLabel("Extra functions");
+		label.setHeight(10).setWidth(70).setX(edges.getRight() + 20).setY(edges.getTop());
+		label.setVisible(false);
 		sin = new ExtrasButton("sin");
-		sin.setWidth(20).setHeight(10).setX(edges.getRight() + 25).setY(edges.getTop());
+		sin.setWidth(20).setHeight(10).setX(edges.getRight() + 25).setY(edges.getTop() + 20);
 		sin.setVisible(false);
 		cos = new ExtrasButton("cos");
-		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop());
+		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 20);
 		cos.setVisible(false);
-		addChildren(new Widget[] {tex, cos, sin});
+		addChildren(new Widget[] {label, tex, cos, sin});
 		setWidth(0).setHeight(0);
 	}
 
