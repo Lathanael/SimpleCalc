@@ -56,7 +56,6 @@ public class CalcWindow extends GenericPopup {
 	private Button one, two, three, four, five, six, seven, eight, nine, zero;
 	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, ac, del, sqrt, ans;
 	private Button close, hide;
-	private Button scView;
 	private DecimalFormat format = new DecimalFormat("#0.00");
 	public SienceWindow extras;
 
@@ -183,13 +182,9 @@ public class CalcWindow extends GenericPopup {
 		sqrt.setAlign(WidgetAnchor.CENTER_CENTER);
 		sqrt.setHeight(10).setWidth(10).setX(edges.getLeft() + 60).setY(edges.getTop() + 75);
 		attachWidget(plugin, sqrt);
-		scView = new GenericButton(ChatColor.WHITE + ">>");
-		scView.setAlign(WidgetAnchor.CENTER_CENTER);
-		scView.setHeight(10).setWidth(15).setX(edges.getLeft() + 75).setY(edges.getTop() + 75);
-		scView.setTooltip("Open the extra functions window.");
 		extras = new SienceWindow(edges);
 		extras.setVisible(false);
-		attachWidget(plugin, scView);
+		attachWidget(plugin, extras);
 
 		initialisePopup();
 	}
@@ -217,36 +212,12 @@ public class CalcWindow extends GenericPopup {
 		}
 	}
 
-	public void openExtras() {
-		extras.setVisible(true);
-		extras.setDirty(true);
-		setDirty(true);
-	}
-
-	public void hideExtras() {
-		extras.setVisible(false);
-		extras.setDirty(true);
-		setDirty(true);
-	}
-
-	public void hide(){
-		close();
-	}
-
-	public void closeWindow() {
-		SimpleCalc plugin = SimpleCalc.getInstance();
-		plugin.removePopup(player);
-	}
-
 	public void onClick(Button button) {
-		if (button.equals(close)) {
-			SimpleCalc.getInstance().removePopup(player);
-			close();
-		}
+		SimpleCalc plugin = SimpleCalc.getInstance();
+		if (button.equals(close))
+			plugin.closeWindow(player, true);
 		else if (button.equals(hide))
-			hide();
-		else if (button.equals(scView))
-			openExtras();
+			plugin.closeWindow(player, false);
 		else if (button.equals(equal)) {
 			String calc = expression.getText();
 			calc = calc.replaceAll(" ", "");

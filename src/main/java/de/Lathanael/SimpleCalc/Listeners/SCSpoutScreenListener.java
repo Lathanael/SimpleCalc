@@ -7,7 +7,8 @@ import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.gui.Screen;
 
 import de.Lathanael.SimpleCalc.SimpleCalc;
-import de.Lathanael.SimpleCalc.Window.CalcWindow;
+import de.Lathanael.SimpleCalc.gui.CalcWindow;
+import de.Lathanael.SimpleCalc.gui.ExtrasButton;
 
 public class SCSpoutScreenListener implements Listener {
 
@@ -23,7 +24,10 @@ public class SCSpoutScreenListener implements Listener {
 		Screen screen = event.getScreen();
 		if(screen instanceof CalcWindow) {
 			CalcWindow window = ((CalcWindow)screen);
-			window.onClick(event.getButton());
+			if (event.getButton() instanceof ExtrasButton)
+				window.extras.onClick(event.getButton(), window);
+			else
+				window.onClick(event.getButton());
 		}
 	}
 }

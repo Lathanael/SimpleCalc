@@ -148,4 +148,16 @@ public class SimpleCalc extends JavaPlugin{
 	public void removePopup(SpoutPlayer player) {
 		popups.remove(player);
 	}
+
+	public void closeWindow(SpoutPlayer player, boolean remove) {
+		CalcWindow popup = null;
+		if (!popups.containsKey(player)) {
+			log.info("No window for " + player.getName() + " was found!");
+			return;
+		}
+		popup = popups.get(player);
+		popup.close();
+		if (remove)
+			removePopup(player);
+	}
 }
