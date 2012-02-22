@@ -33,12 +33,19 @@ Version 0.1 to 0.9 are merely a list of my development progression:
     - BUGFIX: Commas threw an error instead of beeing accepted
     - FEATURE: Spout support. You can now use /calc to open a Calculator Window
     - Update to CB #1185
+* v 2.1:
+    - Change in namespace
+    - Made the error messages a bit more specific.
+* v 2.2:
+    - Updated to new EventSystem
+    - Added ANS function.
+    - Rearranged CalcWindow
 
 
 Lincense:
 ---------
 
-Copyright &copy; 2011  Philippe Leipold
+Copyright &copy; 2011-2012 Philippe Leipold
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,4 +58,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+along with this program. If not, see <http://www.gnu.org/licenses/>
