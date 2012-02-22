@@ -1,4 +1,4 @@
-### Current version: 1.0
+### Current version: 2.2
 
 The source is published under GNU GPL: http://www.gnu.org/licenses/
 For more see License section below!
