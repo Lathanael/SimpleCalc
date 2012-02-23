@@ -22,6 +22,7 @@ package de.Lathanael.SimpleCalc.gui.Extras;
 
 import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.Button;
+import org.getspout.spoutapi.gui.GenericComboBox;
 import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
@@ -39,7 +40,7 @@ public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
 	private ExtrasButton cos, sin, set;
 	private ExtrasLabel label;
-	private ExtrasComboBox box;
+	public GenericComboBox box;
 	private String playerName;
 
 	public ExtrasWindow(Geometry edges, String playerName) {
@@ -57,10 +58,11 @@ public class ExtrasWindow extends GenericContainer {
 		cos = new ExtrasButton("cos");
 		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 20);
 		cos.setVisible(false);
-		box = new ExtrasComboBox();
-		box.setMaxWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 35);
+		box = new GenericComboBox();
+		box.setWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 35);
 		box.setVisible(false);
 		box.setItems(SimpleCalc.alphabet);
+		box.setText("Variable");
 		set = new ExtrasButton("set");
 		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 35);
 		set.setVisible(false);

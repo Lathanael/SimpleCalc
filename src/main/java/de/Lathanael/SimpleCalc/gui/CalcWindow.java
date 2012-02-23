@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 
 import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.Button;
+import org.getspout.spoutapi.gui.GenericComboBox;
 import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
@@ -41,7 +42,6 @@ import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasButton;
-import de.Lathanael.SimpleCalc.gui.Extras.ExtrasComboBox;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasLabel;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasTexture;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasWindow;
@@ -234,7 +234,7 @@ public class CalcWindow extends GenericPopup {
 				continue;
 			else if (widget instanceof ExtrasLabel)
 				continue;
-			else if (widget instanceof ExtrasComboBox)
+			else if (widget instanceof GenericComboBox)
 				continue;
 			widget.setDirty(true);
 			widget.setVisible(true);
