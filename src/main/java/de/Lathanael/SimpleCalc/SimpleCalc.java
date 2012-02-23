@@ -77,6 +77,7 @@ public class SimpleCalc extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		log = getLogger();
+		createAlphabetList();
 		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPlayerListener, this);
