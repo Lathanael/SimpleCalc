@@ -41,6 +41,7 @@ import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasButton;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasComboBox;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasLabel;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasTexture;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasWindow;
@@ -200,7 +201,7 @@ public class CalcWindow extends GenericPopup {
 		scViewOff.setHeight(10).setWidth(15).setX(edges.getLeft() + 75).setY(edges.getTop() + 75);
 		scViewOff.setPriority(RenderPriority.High);
 		attachWidget(plugin, scViewOff);
-		extras = new ExtrasWindow(edges);
+		extras = new ExtrasWindow(edges, player.getName());
 		extras.setVisible(false);
 		attachWidget(plugin, extras);
 
@@ -232,6 +233,8 @@ public class CalcWindow extends GenericPopup {
 			else if (widget instanceof ExtrasButton)
 				continue;
 			else if (widget instanceof ExtrasLabel)
+				continue;
+			else if (widget instanceof ExtrasComboBox)
 				continue;
 			widget.setDirty(true);
 			widget.setVisible(true);

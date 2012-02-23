@@ -20,11 +20,14 @@
 
 package de.Lathanael.SimpleCalc.gui.Extras;
 
+import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.Button;
 import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
 
+import de.Lathanael.SimpleCalc.SimpleCalc;
+import de.Lathanael.SimpleCalc.Tools.VariableKeys;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
 import de.Lathanael.SimpleCalc.gui.Geometry;
 
@@ -37,8 +40,10 @@ public class ExtrasWindow extends GenericContainer {
 	private ExtrasButton cos, sin, set;
 	private ExtrasLabel label;
 	private ExtrasComboBox box;
+	private String playerName;
 
-	public ExtrasWindow(Geometry edges) {
+	public ExtrasWindow(Geometry edges, String playerName) {
+		this.playerName = playerName;
 		tex = new ExtrasTexture("http://dl.dropbox.com/u/42731731/CalcBackground.png");
 		tex.setHeight(166).setWidth(100).setX(edges.getRight() + 15).setY(edges.getTop() - 10);
 		tex.setPriority(RenderPriority.High);
@@ -53,7 +58,13 @@ public class ExtrasWindow extends GenericContainer {
 		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 20);
 		cos.setVisible(false);
 		box = new ExtrasComboBox();
-		addChildren(new Widget[] {label, tex, cos, sin, box});
+		box.setMaxWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 35);
+		box.setVisible(false);
+		box.setItems(SimpleCalc.alphabet);
+		set = new ExtrasButton("set");
+		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 35);
+		set.setVisible(false);
+		addChildren(new Widget[] {label, tex, cos, sin, box, set});
 		setWidth(0).setHeight(0);
 	}
 
@@ -64,6 +75,21 @@ public class ExtrasWindow extends GenericContainer {
 		} else if (button.equals(sin)) {
 			window.expression.setText(window.expression.getText() + "SIN(");
 			window.expression.setDirty(true);
+		} else if (button.equals(set)) {
+			String number = window.expression.getText();
+			if (number == null || number.isEmpty()) {
+				window.result.setText(ChatColor.RED + "Input empty!");
+				return;
+			}
+			double value = 0;
+			try {
+				value = Double.parseDouble(number);
+			} catch (NumberFormatException e) {
+				window.result.setText(ChatColor.RED + "Could not parse your input as a number!");
+				return;
+			}
+			VariableKeys key = new VariableKeys(playerName, box.getSelectedItem());
+			SimpleCalc.variables.put(key, value);
 		}
 	}
 }

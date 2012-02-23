@@ -23,7 +23,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -60,6 +62,7 @@ public class SimpleCalc extends JavaPlugin {
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
 	public static Map<String, Double> answer = new HashMap<String, Double>();
 	public static Map<VariableKeys, Double> variables = new HashMap<VariableKeys, Double>();
+	public static List<String> alphabet = new ArrayList<String>();
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
@@ -238,5 +241,14 @@ public class SimpleCalc extends JavaPlugin {
 	private void loadConfig(YamlConfiguration config) {
 		backgroundURL = config.getString("backgroundURL", "http://dl.dropbox.com/u/42731731/CalcBackground.png");
 		keysEnabled = config.getBoolean("EnableKeys", false);
+	}
+
+	public void createAlphabetList() {
+		for (int i = 0; i < 26; i++) {
+			String upper = String.valueOf((char) ('A' + i));
+			String lower = String.valueOf((char) ('a' + i));
+			alphabet.add(upper);
+			alphabet.add(lower);
+		}
 	}
 }
