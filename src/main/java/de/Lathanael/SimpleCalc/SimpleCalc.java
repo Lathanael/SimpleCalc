@@ -45,19 +45,21 @@ import de.Lathanael.SimpleCalc.Listeners.SCPlayerListener;
 import de.Lathanael.SimpleCalc.Listeners.SCSpoutScreenListener;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.Tools.Functions;
+import de.Lathanael.SimpleCalc.Tools.VariableKeys;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
 * https://github.com/Lathanael
 **/
-public class SimpleCalc extends JavaPlugin{
+public class SimpleCalc extends JavaPlugin {
 
 	public static Logger log;
 	public static PluginManager pm;
 	private static SimpleCalc instance;
 	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
 	public static Map<String, Double> answer = new HashMap<String, Double>();
+	public static Map<VariableKeys, Double> variables = new HashMap<VariableKeys, Double>();
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
@@ -65,11 +67,11 @@ public class SimpleCalc extends JavaPlugin{
 	public static String backgroundURL;
 	public static boolean keysEnabled = false;
 
-	public void onDisable(){
+	public void onDisable() {
 		log.info("Version " + this.getDescription().getVersion() + " disabled.");
 	}
 
-	public void onEnable(){
+	public void onEnable() {
 		instance = this;
 		log = getLogger();
 		SCPlayerListener = new SCPlayerListener(this);
@@ -79,7 +81,7 @@ public class SimpleCalc extends JavaPlugin{
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
-		if (SCPluginListener.spout != null){
+		if (SCPluginListener.spout != null) {
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
 		}
 		if (keysEnabled) {
@@ -89,16 +91,16 @@ public class SimpleCalc extends JavaPlugin{
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
 
-	public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args){
+	public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args) {
 
 		// args was initialised as null
 		if (args == null)
 			return false;
 		// No arguments given open clac window if Spout is enabled
-		if (args.length == 0){
+		if (args.length == 0) {
 			if (sender instanceof ConsoleCommandSender)
 				return false;
-			if (SCPluginListener.spout != null){
+			if (SCPluginListener.spout != null) {
 				((SpoutPlayer) sender).closeActiveWindow();
 				openWindow((SpoutPlayer) sender);
 				return true;
@@ -107,7 +109,35 @@ public class SimpleCalc extends JavaPlugin{
 				return false;
 			}
 		}
-		else if (args.length >=1){
+		else if (args.length >=1) {
+			// Lets set a variable!
+			if (args.length >= 3 && args[0].equalsIgnoreCase("set")) {
+				String var = args[1];
+				String name;
+				if (sender instanceof ConsoleCommandSender) {
+					name = "Admin";
+				} else {
+					name = ((Player) sender).getName();
+				}
+				VariableKeys key = new VariableKeys(name, var);
+				double value;
+				try {
+					value = Double.parseDouble(args[2]);
+				} catch (NumberFormatException e) {
+					if (sender instanceof ConsoleCommandSender)
+						log.info("Could not parse your input as a number!");
+					else
+						sender.sendMessage(ChatColor.RED + "Could not parse your input as a number!");
+					return false;
+				}
+				variables.put(key, value);
+				if (sender instanceof ConsoleCommandSender)
+					log.info("Successfully stored: " + value + " into variable: " + var);
+				else
+					sender.sendMessage(ChatColor.GREEN + "Successfully stored: " + ChatColor.GOLD + value
+							+ ChatColor.GREEN + " into variable: " + ChatColor.GOLD + var);
+				return true;
+			}
 			// Cocatenate the String Array if user did place whitespaces in it and remove them if needed.
 			String calc = Functions.arrayConcat(args);
 			// Create a new parser object and let itparse the input String

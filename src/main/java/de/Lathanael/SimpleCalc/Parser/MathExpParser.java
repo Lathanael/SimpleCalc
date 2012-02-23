@@ -57,8 +57,12 @@ public class MathExpParser{
 	private String[] operPrecedence = {"bl+ bl-", "bl* bl% bl/", "un-", "br^", "unFunc"};
 
 	//Functions to be recognized
-	private Pattern rFunctions = Pattern.compile("[a-zA-Z]+[_1-9a-zA-Z]*");
+	private Pattern rFunctions = Pattern.compile("[a-zA-Z]+[\\w]+");
 	private Matcher mFunctions;
+
+	//Variables to be recognized, needs to be looked at AFTER mFunctions!
+	private Pattern rVariables = Pattern.compile("[a-zA-Z]{1}");
+	private Matcher mVariables;
 
 	// Constants declaring the type of operator
 	private static final char INVALID = 'i';
@@ -67,17 +71,20 @@ public class MathExpParser{
 	private static final char LEFTPAREN = 'l';
 	private static final char RIGHTPAREN = 'r';
 	private static final char FUNCTION = 'f';
+	private static final char VARIABLE = 'v';
+	private static final char SEPARATOR = 's';
 
 	// Creates empty Parser if nothing is given
-	public MathExpParser(){
+	public MathExpParser() {
 	}
 
 	// Creates a new parser for the given equation
-	public MathExpParser(String equation, String playerName){
+	public MathExpParser(String equation, String playerName) {
 		// Set the variables
 		mNumbers = rNumbers.matcher(equation);
 		mOperators = rOperators.matcher(equation);
 		mFunctions = rFunctions.matcher(equation);
+		mVariables = rVariables.matcher(equation);
 		this.playerName = playerName;
 		this.equation = equation;
 
@@ -87,13 +94,13 @@ public class MathExpParser{
 	}
 
 	// Convert the Math expression to RPN so it can be calculated
-	public void infixToRPN(){
+	public void infixToRPN() {
 		// initialize
 		current = null;
 		previous = null;
 		result = new Stack<Object>();
 		operator = new Stack<Object>();
-		for (counter = 0; counter < equation.length(); counter++){
+		for (counter = 0; counter < equation.length(); counter++) {
 			// Get the first/next token
 			char token = getNext();
 			switch (token){
@@ -101,14 +108,35 @@ public class MathExpParser{
 				case DIGITS:
 					result.push(current);
 					break;
+				// If token == Variable add it to the result queue and examine it later.
+				case VARIABLE:
+					result.push(current);
 				// If the token == function push it onto the stack.
 				case FUNCTION:
 					operator.push(current);
 					break;
+				// Token == Seperator -->
+				case SEPARATOR:
+					while (true) {
+						//Pop the operators onto the result queue until a left parenthesis is found
+						if (operator.isEmpty()) {
+							throw new MathSyntaxMismatch("Misplaced seperator or missing parenthesis.");
+						}
+						Object tmp = operator.pop();
+						if (getType(tmp) == LEFTPAREN) {
+							UnaryFunctions func = (UnaryFunctions) operator.pop();
+							func.incArgCount();
+							operator.push(func);
+							operator.push(tmp);
+							break;
+						}
+						result.push(tmp);
+					}
+					break;
 				// If the token is an operator, then:
 				case OPERATOR:
 					// while there is an operator at the top of the stack
-					while (!operator.isEmpty() && getType(operator.peek()) == OPERATOR){
+					while (!operator.isEmpty() && getType(operator.peek()) == OPERATOR) {
 						Operator top = (Operator) operator.peek();
 						// if current is associative or left-associative and has a lower or equal precedence to the top or
 						// current is right-associative and has lower precedence
@@ -155,14 +183,14 @@ public class MathExpParser{
 							result.push(operator.pop());
 						}
 					}
-					catch (EmptyStackException e){
+					catch (EmptyStackException e) {
 						throw new MathSyntaxMismatch("Misplaced parenthesis!");
 					}
 					break;
 			}
 		}
 		// While there are still operator tokens in the stack
-		while (!operator.empty()){
+		while (!operator.empty()) {
 			current = operator.pop();
 			if (getType(current) == LEFTPAREN){
 				throw new MathSyntaxMismatch("Misplaced parenthesis!");
@@ -173,25 +201,25 @@ public class MathExpParser{
 	}
 
 	// Return which operator has precedence
-	private boolean checkPrecedence(Operator oper1, Operator oper2){
+	private boolean checkPrecedence(Operator oper1, Operator oper2) {
 		// Precedence of Operator 1 and 2
 		int prec1 = -1;
 		int prec2 = -1;
 		for (int i = 0; i < operPrecedence.length; i++){
 			Scanner scanner = new Scanner(operPrecedence[i]);
-			while (scanner.hasNext()){
+			while (scanner.hasNext()) {
 				String comparing = scanner.next();
-				if (comparing.equals(oper1.getOperator(true))){
+				if (comparing.equals(oper1.getOperator(true))) {
 					// found a match!
 					prec1 = i;
 				}
-				if (comparing.equals(oper2.getOperator(true))){
+				if (comparing.equals(oper2.getOperator(true))) {
 					// found a match!
 					prec2 = i;
 				}
 			}
 		}
-		if (prec1 == -1 || prec2 == -1){
+		if (prec1 == -1 || prec2 == -1) {
 			// Operator mismatch
 			throw new MathSyntaxMismatch("No operators or unkown operators given!");
 		}
@@ -205,7 +233,7 @@ public class MathExpParser{
 			}
 		}
 		// Is operator right associative
-		else if (oper1.isRight()){
+		else if (oper1.isRight()) {
 			if (prec1 < prec2){
 				return true;
 			}
@@ -225,14 +253,18 @@ public class MathExpParser{
 	}
 
 	// Returns the type of the Object
-	private char getType(Object obj){
+	private char getType(Object obj) {
 		// Object is a Number
-		if (obj instanceof Double){
+		if (obj instanceof Double) {
 			return DIGITS;
 		}
 		// Object is a Function
 		else if (obj instanceof UnaryFunctions){
 			return FUNCTION;
+		}
+		// Object is a Variable
+		else if (obj instanceof Variable){
+			return VARIABLE;
 		}
 		// Object is an Operator
 		else if (obj instanceof Operator){
@@ -246,6 +278,10 @@ public class MathExpParser{
 		else if (obj instanceof String && obj.equals(")")){
 			return RIGHTPAREN;
 		}
+		// Object is a ;
+		else if (obj instanceof String && obj.equals(";")){
+			return SEPARATOR;
+		}
 		// Object is none of the accepted mathematical expressions
 		else{
 			return INVALID;
@@ -253,7 +289,7 @@ public class MathExpParser{
 	}
 
 	// Parse the next token starting at counter and put it into holdng, returns the object being put into current
-	private char getNext(){
+	private char getNext() {
 		// set previous
 		previous = current;
 		// Token is a left parenthesis
@@ -265,6 +301,11 @@ public class MathExpParser{
 		else if (equation.charAt(counter) == ')') {
 			current = ")";
 			return RIGHTPAREN;
+		}
+		// Token is a function seperator
+		else if (equation.charAt(counter) == ';') {
+			current = ";";
+			return SEPARATOR;
 		}
 		// Token is a number
 		else if (mNumbers.find(counter) && mNumbers.start() == counter) {
@@ -279,7 +320,7 @@ public class MathExpParser{
 			if (getType(previous) != DIGITS && getType(previous) != RIGHTPAREN) {
 				opFl = "u";
 				// Determine the associative status of the operator
-				for (int i = 0; i < operPrecedence.length; i++){
+				for (int i = 0; i < operPrecedence.length; i++) {
 					Scanner scanner = new Scanner(operPrecedence[i]);
 					while (scanner.hasNext()){
 						String temp = scanner.next();
@@ -293,7 +334,7 @@ public class MathExpParser{
 			else {
 				opFl = "b";
 				// Determine the associative status of the operator
-				for (int i = 0; i < operPrecedence.length; i++){
+				for (int i = 0; i < operPrecedence.length; i++) {
 					Scanner scanner = new Scanner(operPrecedence[i]);
 					while (scanner.hasNext()){
 						String temp = scanner.next();
@@ -315,6 +356,12 @@ public class MathExpParser{
 			counter = mFunctions.end() - 1;
 			return FUNCTION;
 		}
+		// Token is a variable!
+		else if (mVariables.find(counter) && mVariables.start() == counter) {
+			current = new Variable(mVariables.group(), playerName);
+			counter = mVariables.end() - 1;
+			return VARIABLE;
+		}
 		else {
 			// The given expression can't be parsed as an equation
 			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
@@ -323,8 +370,8 @@ public class MathExpParser{
 
 	// Computes the equation if it was parsed successfully
 	@SuppressWarnings("unchecked")
-	public double compute(){
-		if (!done){
+	public double compute() {
+		if (!done) {
 			// Equation could not be parsed!
 			throw new MathSyntaxMismatch("Unable to parse the expression as a mathematical 'equation'!");
 		}
@@ -337,17 +384,17 @@ public class MathExpParser{
 	}
 
 	// Recursive help function to compute the equation
-	private double comp(){
+	private double comp() {
 		Object token;
-		while (!result.isEmpty()){
+		while (!result.isEmpty()) {
 			token = result.pop();
 
 			// Token is a Number
-			if (getType(token) == DIGITS){
+			if (getType(token) == DIGITS) {
 				return ((Double) token).doubleValue();
 			}
 			// Token is an Operator
-			else if (getType(token) == OPERATOR){
+			else if (getType(token) == OPERATOR) {
 				if (((Operator) token).isUnary()){
 					double[] operands = {this.comp()};
 					return ((Operator) token).execute(operands);
@@ -363,7 +410,7 @@ public class MathExpParser{
 				}
 			}
 			// Token is a Function
-			else if (getType(token) == FUNCTION){
+			else if (getType(token) == FUNCTION) {
 				UnaryFunctions temp = (UnaryFunctions) token;
 				double[] args = new double[((UnaryFunctions) token).getArgCount()];
 				if (temp.isArgLess())
@@ -372,6 +419,11 @@ public class MathExpParser{
 					args[i] = this.comp();
 				}
 				return ((UnaryFunctions) token).compute(args);
+			}
+			// Token is a Variable
+			else if (getType(token) == VARIABLE) {
+				Variable temp = (Variable) token;
+				return temp.compute();
 			}
 			// Token is neither, Parser failed to read the equation correctly
 			else{

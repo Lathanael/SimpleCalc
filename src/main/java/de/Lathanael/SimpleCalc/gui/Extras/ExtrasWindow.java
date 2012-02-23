@@ -34,8 +34,9 @@ import de.Lathanael.SimpleCalc.gui.Geometry;
  */
 public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
-	private ExtrasButton cos, sin;
+	private ExtrasButton cos, sin, set;
 	private ExtrasLabel label;
+	private ExtrasComboBox box;
 
 	public ExtrasWindow(Geometry edges) {
 		tex = new ExtrasTexture("http://dl.dropbox.com/u/42731731/CalcBackground.png");
@@ -51,7 +52,8 @@ public class ExtrasWindow extends GenericContainer {
 		cos = new ExtrasButton("cos");
 		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 20);
 		cos.setVisible(false);
-		addChildren(new Widget[] {label, tex, cos, sin});
+		box = new ExtrasComboBox();
+		addChildren(new Widget[] {label, tex, cos, sin, box});
 		setWidth(0).setHeight(0);
 	}
 
