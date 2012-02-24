@@ -25,9 +25,7 @@ package de.Lathanael.SimpleCalc.Tools;
  *
  */
 public class VariableKeys {
-	@SuppressWarnings("unused")
 	private String v;
-	@SuppressWarnings("unused")
 	private String k;
 
 	public VariableKeys(String playerName, String variale) {
@@ -35,4 +33,25 @@ public class VariableKeys {
 		this.k = playerName;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (obj.getClass() == getClass()) {
+			if(((VariableKeys) obj).k.equals(this.k) && ((VariableKeys) obj).v.equals(this.v))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hc = 87;
+		int mult = 47;
+		hc = hc*mult + v.hashCode();
+		hc = hc*mult + k.hashCode();
+		return hc;
+	}
 }
