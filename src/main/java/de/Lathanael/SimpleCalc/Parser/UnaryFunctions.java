@@ -45,7 +45,7 @@ public class UnaryFunctions extends Operator {
 		this.playerName = playerName;
 		if (name.equalsIgnoreCase("ans"))
 			argLess = true;
-		else if (name.equalsIgnoreCase("ans"))
+		else if (name.equalsIgnoreCase("pi"))
 			argLess = true;
 		else
 			argLess = false;
@@ -70,7 +70,9 @@ public class UnaryFunctions extends Operator {
 			return Math.log10(args[0]);
 		} else if (name.equalsIgnoreCase("ln")) {
 			return Math.log(args[0]);
-		}else {
+		} else if (name.equalsIgnoreCase("pi")) {
+			return Math.PI;
+		} else {
 			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");
 		}
 	}
@@ -89,9 +91,5 @@ public class UnaryFunctions extends Operator {
 
 	public boolean isArgLess() {
 		return argLess;
-	}
-
-	 public String toString () {
-		return name;
 	}
 }

@@ -58,7 +58,7 @@ public class Operator{
 				break;
 			default:
 				// It is not an Operator!
-				throw new MathSyntaxMismatch("Token is not a known operator!");
+				throw new MathSyntaxMismatch("Token " + operatorText.charAt(0) + " is not a known operator!");
 		}
 		// Check associative status
 		switch (operatorText.charAt(1)){
@@ -76,7 +76,7 @@ public class Operator{
 				break;
 			default:
 				// It is not an Operator!
-				throw new MathSyntaxMismatch("Token is not a known operator!");
+				throw new MathSyntaxMismatch("Token " + operatorText.charAt(0) + " is not a known operator!");
 		}
 		this.sOperator = operatorText;
 	}
