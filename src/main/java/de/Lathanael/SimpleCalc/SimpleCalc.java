@@ -117,6 +117,13 @@ public class SimpleCalc extends JavaPlugin {
 			// Lets set a variable!
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set")) {
 				String var = args[1];
+				if (var.equals("e")) {
+					if (sender instanceof ConsoleCommandSender)
+						sender.sendMessage("You cant set e as a varialbe as it is used for the Euler constant!");
+					else
+						sender.sendMessage(ChatColor.RED + "You cant set e as a varialbe as it is used for the Euler constant!");
+					return true;
+				}
 				String name;
 				if (sender instanceof ConsoleCommandSender) {
 					name = "Admin";
@@ -249,6 +256,8 @@ public class SimpleCalc extends JavaPlugin {
 			String upper = String.valueOf((char) ('A' + i));
 			String lower = String.valueOf((char) ('a' + i));
 			alphabet.add(upper);
+			if (lower.charAt(0) == 'e')
+				continue;
 			alphabet.add(lower);
 		}
 	}

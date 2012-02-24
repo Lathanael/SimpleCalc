@@ -39,6 +39,8 @@ public class Variable extends Operator {
 	}
 
 	public double compute() throws MathSyntaxMismatch {
+		if(name.equals("e"))
+			return Math.E;
 		try {
 			VariableKeys key = new VariableKeys(playerName, name);
 			double value = SimpleCalc.variables.get(key);

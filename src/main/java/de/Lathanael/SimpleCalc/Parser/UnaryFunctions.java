@@ -20,6 +20,8 @@
 
 package de.Lathanael.SimpleCalc.Parser;
 
+import org.bukkit.entity.Player;
+
 import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 
@@ -72,6 +74,24 @@ public class UnaryFunctions extends Operator {
 			return Math.log(args[0]);
 		} else if (name.equalsIgnoreCase("pi")) {
 			return Math.PI;
+		} else if (name.equalsIgnoreCase("spawnX")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getWorld().getSpawnLocation().getX();
+		} else if (name.equalsIgnoreCase("locX")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getLocation().getX();
+		} else if (name.equalsIgnoreCase("spawnY")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getWorld().getSpawnLocation().getY();
+		} else if (name.equalsIgnoreCase("locY")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getLocation().getY();
+		} else if (name.equalsIgnoreCase("spawnZ")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getWorld().getSpawnLocation().getZ();
+		} else if (name.equalsIgnoreCase("locZ")) {
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return p.getLocation().getZ();
 		} else {
 			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");
 		}
