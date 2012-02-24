@@ -38,7 +38,7 @@ import de.Lathanael.SimpleCalc.gui.Geometry;
  */
 public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
-	private ExtrasButton cos, sin, set;
+	private ExtrasButton cos, sin, pi, e, set, log, ln;
 	private ExtrasLabel label;
 	public GenericComboBox box;
 	private String playerName;
@@ -58,15 +58,27 @@ public class ExtrasWindow extends GenericContainer {
 		cos = new ExtrasButton("cos");
 		cos.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 20);
 		cos.setVisible(false);
+		pi = new ExtrasButton("π");
+		pi.setWidth(20).setHeight(10).setX(edges.getRight() + 75).setY(edges.getTop() + 20);
+		pi.setVisible(false);
+		e = new ExtrasButton("ℯ");
+		e.setWidth(20).setHeight(10).setX(edges.getRight() + 95).setY(edges.getTop() + 20);
+		e.setVisible(false);
+		ln = new ExtrasButton("ln");
+		ln.setWidth(20).setHeight(10).setX(edges.getRight() + 25).setY(edges.getTop() + 35);
+		ln.setVisible(false);
+		log = new ExtrasButton("log");
+		log.setWidth(20).setHeight(10).setX(edges.getRight() + 50).setY(edges.getTop() + 35);
+		log.setVisible(false);
 		box = new GenericComboBox();
-		box.setWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 35);
+		box.setWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 80);
 		box.setVisible(false);
 		box.setItems(SimpleCalc.alphabet);
 		box.setText("Variable");
 		set = new ExtrasButton("set");
-		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 35);
+		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 80);
 		set.setVisible(false);
-		addChildren(new Widget[] {label, tex, cos, sin, box, set});
+		addChildren(new Widget[] {label, tex, cos, sin, box, set, pi, e, log, ln});
 		setWidth(0).setHeight(0);
 	}
 
@@ -76,6 +88,18 @@ public class ExtrasWindow extends GenericContainer {
 			window.expression.setDirty(true);
 		} else if (button.equals(sin)) {
 			window.expression.setText(window.expression.getText() + "SIN(");
+			window.expression.setDirty(true);
+		} else if (button.equals(log)) {
+			window.expression.setText(window.expression.getText() + "LOG(");
+			window.expression.setDirty(true);
+		} else if (button.equals(ln)) {
+			window.expression.setText(window.expression.getText() + "LN(");
+			window.expression.setDirty(true);
+		} else if (button.equals(e)) {
+			window.expression.setText(window.expression.getText() + "e");
+			window.expression.setDirty(true);
+		} else if (button.equals(pi)) {
+			window.expression.setText(window.expression.getText() + "PI()");
 			window.expression.setDirty(true);
 		} else if (button.equals(set)) {
 			String number = window.expression.getText();
