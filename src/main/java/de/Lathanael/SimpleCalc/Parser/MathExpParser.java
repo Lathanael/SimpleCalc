@@ -111,6 +111,7 @@ public class MathExpParser{
 				// If token == Variable add it to the result queue and examine it later.
 				case VARIABLE:
 					result.push(current);
+					break;
 				// If the token == function push it onto the stack.
 				case FUNCTION:
 					operator.push(current);
@@ -317,7 +318,7 @@ public class MathExpParser{
 		else if (mOperators.find(counter) && mOperators.start() == counter) {
 			String opFl;
 			// Token is an unary operator
-			if (getType(previous) != DIGITS && getType(previous) != RIGHTPAREN) {
+			if (getType(previous) != DIGITS && getType(previous) != RIGHTPAREN && getType(previous) != VARIABLE) {
 				opFl = "u";
 				// Determine the associative status of the operator
 				for (int i = 0; i < operPrecedence.length; i++) {
