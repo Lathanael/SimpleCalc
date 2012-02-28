@@ -22,7 +22,6 @@ package de.Lathanael.SimpleCalc.gui.Extras;
 
 import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.Button;
-import org.getspout.spoutapi.gui.GenericComboBox;
 import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
@@ -40,7 +39,7 @@ public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
 	private ExtrasButton cos, sin, pi, e, set, log, ln, get, ins;
 	private ExtrasLabel label;
-	public GenericComboBox box, locs;
+	public ExtrasComboBox box, locs;
 	private String playerName;
 
 	public ExtrasWindow(Geometry edges, String playerName) {
@@ -72,24 +71,24 @@ public class ExtrasWindow extends GenericContainer {
 		log = new ExtrasButton("log");
 		log.setWidth(20).setHeight(10).setX(edges.getRight() + 42).setY(edges.getTop() + 35);
 		log.setVisible(false);
-		box = new GenericComboBox();
-		box.setWidth(60).setHeight(25).setX(edges.getRight() + 20).setY(edges.getTop() + 80);
+		box = new ExtrasComboBox();
+		box.setWidth(60).setHeight(20).setX(edges.getRight() + 20).setY(edges.getBottom() - 50);
 		box.setVisible(false);
 		box.setItems(SimpleCalc.alphabet);
 		box.setText("Variable");
 		set = new ExtrasButton("Set");
-		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 80);
+		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getBottom() - 50);
 		set.setVisible(false);
 		get = new ExtrasButton("Get");
-		get.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 95);
+		get.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getBottom() - 38);
 		get.setVisible(false);
-		locs = new GenericComboBox();
-		locs.setWidth(60).setHeight(20).setX(edges.getRight() + 20).setY(edges.getTop() + 100);
+		locs = new ExtrasComboBox();
+		locs.setWidth(60).setHeight(20).setX(edges.getRight() + 20).setY(edges.getBottom() - 20);
 		locs.setVisible(false);
 		locs.setItems(SimpleCalc.locs);
 		locs.setText("Locations");
 		ins = new ExtrasButton("INS");
-		ins.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 105);
+		ins.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getBottom() - 15);
 		ins.setVisible(false);
 		addChildren(new Widget[] {label, tex, cos, sin, box, set, pi, e, log, ln, get, locs, ins});
 		setWidth(0).setHeight(0);
@@ -137,6 +136,12 @@ public class ExtrasWindow extends GenericContainer {
 		} else if (button.equals(ins)) {
 			window.expression.setText(window.expression.getText() + locs.getSelectedItem());
 			window.expression.setDirty(true);
+		} else if (button.equals(box)) {
+			box.setText(box.getSelectedItem());
+			box.setDirty(true);
+		} else if (button.equals(locs)) {
+			locs.setText(locs.getSelectedItem());
+			locs.setDirty(true);
 		}
 	}
 }

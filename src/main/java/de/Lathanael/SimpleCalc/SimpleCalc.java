@@ -261,11 +261,11 @@ public class SimpleCalc extends JavaPlugin {
 				continue;
 			alphabet.add(lower);
 		}
-		locs.add("LocX");
-		locs.add("LocY");
-		locs.add("LocZ");
-		locs.add("SpawnX");
-		locs.add("SpawnY");
-		locs.add("SpawnZ");
+		locs.add("LocX()");
+		locs.add("LocY()");
+		locs.add("LocZ()");
+		locs.add("SpawnX()");
+		locs.add("SpawnY()");
+		locs.add("SpawnZ()");
 	}
 }

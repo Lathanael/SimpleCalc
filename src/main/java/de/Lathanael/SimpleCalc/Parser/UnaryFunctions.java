@@ -49,6 +49,10 @@ public class UnaryFunctions extends Operator {
 			argLess = true;
 		else if (name.equalsIgnoreCase("pi"))
 			argLess = true;
+		else if (name.toLowerCase().contains("spawn"))
+			argLess = true;
+		else if (name.toLowerCase().contains("loc"))
+			argLess = true;
 		else
 			argLess = false;
 		countArg = 0;
@@ -74,23 +78,47 @@ public class UnaryFunctions extends Operator {
 			return Math.log(args[0]);
 		} else if (name.equalsIgnoreCase("pi")) {
 			return Math.PI;
-		} else if (name.equalsIgnoreCase("spawnX")) {
+		} else if (name.equalsIgnoreCase("spawnx")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getWorld().getSpawnLocation().getX();
-		} else if (name.equalsIgnoreCase("locX")) {
+		} else if (name.equalsIgnoreCase("locx")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getLocation().getX();
-		} else if (name.equalsIgnoreCase("spawnY")) {
+		} else if (name.equalsIgnoreCase("spawny")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getWorld().getSpawnLocation().getY();
-		} else if (name.equalsIgnoreCase("locY")) {
+		} else if (name.equalsIgnoreCase("locy")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getLocation().getY();
-		} else if (name.equalsIgnoreCase("spawnZ")) {
+		} else if (name.equalsIgnoreCase("spawnz")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getWorld().getSpawnLocation().getZ();
-		} else if (name.equalsIgnoreCase("locZ")) {
+		} else if (name.equalsIgnoreCase("locz")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
 			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			if (p == null)
+				return 0;
 			return p.getLocation().getZ();
 		} else {
 			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");

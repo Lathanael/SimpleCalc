@@ -42,6 +42,7 @@ import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasButton;
+import de.Lathanael.SimpleCalc.gui.Extras.ExtrasComboBox;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasLabel;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasTexture;
 import de.Lathanael.SimpleCalc.gui.Extras.ExtrasWindow;
@@ -51,6 +52,7 @@ import de.Lathanael.SimpleCalc.gui.Extras.ExtrasWindow;
 * https://github.com/Lathanael
 **/
 
+@SuppressWarnings("unused")
 public class CalcWindow extends GenericPopup {
 	private Texture background;
 	private Geometry edges = new Geometry();
@@ -234,7 +236,7 @@ public class CalcWindow extends GenericPopup {
 				continue;
 			else if (widget instanceof ExtrasLabel)
 				continue;
-			else if (widget instanceof GenericComboBox)
+			else if (widget instanceof ExtrasComboBox)
 				continue;
 			widget.setDirty(true);
 			widget.setVisible(true);
