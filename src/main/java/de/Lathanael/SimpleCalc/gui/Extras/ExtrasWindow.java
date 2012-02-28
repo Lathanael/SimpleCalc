@@ -38,9 +38,9 @@ import de.Lathanael.SimpleCalc.gui.Geometry;
  */
 public class ExtrasWindow extends GenericContainer {
 	private ExtrasTexture tex;
-	private ExtrasButton cos, sin, pi, e, set, log, ln;
+	private ExtrasButton cos, sin, pi, e, set, log, ln, get, ins;
 	private ExtrasLabel label;
-	public GenericComboBox box;
+	public GenericComboBox box, locs;
 	private String playerName;
 
 	public ExtrasWindow(Geometry edges, String playerName) {
@@ -73,14 +73,25 @@ public class ExtrasWindow extends GenericContainer {
 		log.setWidth(20).setHeight(10).setX(edges.getRight() + 42).setY(edges.getTop() + 35);
 		log.setVisible(false);
 		box = new GenericComboBox();
-		box.setWidth(60).setHeight(15).setX(edges.getRight() + 20).setY(edges.getTop() + 80);
+		box.setWidth(60).setHeight(25).setX(edges.getRight() + 20).setY(edges.getTop() + 80);
 		box.setVisible(false);
 		box.setItems(SimpleCalc.alphabet);
 		box.setText("Variable");
-		set = new ExtrasButton("set");
+		set = new ExtrasButton("Set");
 		set.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 80);
 		set.setVisible(false);
-		addChildren(new Widget[] {label, tex, cos, sin, box, set, pi, e, log, ln});
+		get = new ExtrasButton("Get");
+		get.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 95);
+		get.setVisible(false);
+		locs = new GenericComboBox();
+		locs.setWidth(60).setHeight(20).setX(edges.getRight() + 20).setY(edges.getTop() + 100);
+		locs.setVisible(false);
+		locs.setItems(SimpleCalc.locs);
+		locs.setText("Locations");
+		ins = new ExtrasButton("INS");
+		ins.setWidth(20).setHeight(10).setX(edges.getRight() +  85).setY(edges.getTop() + 105);
+		ins.setVisible(false);
+		addChildren(new Widget[] {label, tex, cos, sin, box, set, pi, e, log, ln, get, locs, ins});
 		setWidth(0).setHeight(0);
 	}
 
@@ -118,6 +129,14 @@ public class ExtrasWindow extends GenericContainer {
 			}
 			VariableKeys key = new VariableKeys(playerName, box.getSelectedItem());
 			SimpleCalc.variables.put(key, value);
+			window.result.setText(ChatColor.GREEN + "Set variable " + ChatColor.GOLD + box.getSelectedItem()
+					+ ChatColor.GREEN + " to : " + ChatColor.AQUA + value);
+		} else if (button.equals(get)) {
+			window.expression.setText(window.expression.getText() + box.getSelectedItem());
+			window.expression.setDirty(true);
+		} else if (button.equals(ins)) {
+			window.expression.setText(window.expression.getText() + locs.getSelectedItem());
+			window.expression.setDirty(true);
 		}
 	}
 }

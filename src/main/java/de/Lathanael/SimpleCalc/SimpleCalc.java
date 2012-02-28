@@ -63,6 +63,7 @@ public class SimpleCalc extends JavaPlugin {
 	public static Map<String, Double> answer = new HashMap<String, Double>();
 	public static Map<VariableKeys, Double> variables = new HashMap<VariableKeys, Double>();
 	public static List<String> alphabet = new ArrayList<String>();
+	public static List<String> locs = new ArrayList<String>();
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
@@ -77,7 +78,7 @@ public class SimpleCalc extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		log = getLogger();
-		createAlphabetList();
+		createLists();
 		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPlayerListener, this);
@@ -251,7 +252,7 @@ public class SimpleCalc extends JavaPlugin {
 		keysEnabled = config.getBoolean("EnableKeys", false);
 	}
 
-	public void createAlphabetList() {
+	public void createLists() {
 		for (int i = 0; i < 26; i++) {
 			String upper = String.valueOf((char) ('A' + i));
 			String lower = String.valueOf((char) ('a' + i));
@@ -260,5 +261,11 @@ public class SimpleCalc extends JavaPlugin {
 				continue;
 			alphabet.add(lower);
 		}
+		locs.add("LocX");
+		locs.add("LocY");
+		locs.add("LocZ");
+		locs.add("SpawnX");
+		locs.add("SpawnY");
+		locs.add("SpawnZ");
 	}
 }
