@@ -106,7 +106,6 @@ public class SimpleCalc extends JavaPlugin {
 			if (sender instanceof ConsoleCommandSender)
 				return false;
 			if (SCPluginListener.spout != null) {
-				((SpoutPlayer) sender).closeActiveWindow();
 				openWindow((SpoutPlayer) sender);
 				return true;
 			}
