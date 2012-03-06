@@ -1,4 +1,4 @@
-### Current version: 2.2
+### Current version: 2.3
 
 The source is published under GNU GPL: http://www.gnu.org/licenses/
 For more see License section below!
@@ -40,6 +40,11 @@ Version 0.1 to 0.9 are merely a list of my development progression:
     - Updated to new EventSystem
     - Added ANS function.
     - Rearranged CalcWindow
+* v 2.3:
+    - Added variables: You can now set variables with /calc set <variable> <value>. A variable is any letter except small e. Like: a,B,Z,O and g
+    - Added more functions like: sin, cos, sqrt, ln....
+    - Added SpawnX(), SpawnY(), SpawnZ() and LocX(), LocY(), LocZ() to get the locations of the spawn from your current world and your current location. This does only work when used ingame from a player!
+    - Added "Sience" window to the gui to use the new functions.
 
 
 Lincense:
