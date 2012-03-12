@@ -81,13 +81,13 @@ public class SimpleCalc extends JavaPlugin {
 		createLists();
 		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvents(SCPlayerListener, this);
 		pm.registerEvents(SCPluginListener, this);
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
 		if (SCPluginListener.spout != null) {
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
+			pm.registerEvents(SCPlayerListener, this);
 		}
 		if (keysEnabled) {
 			log.info("Listening to keystrokes while CalcWindow is open enabled");
