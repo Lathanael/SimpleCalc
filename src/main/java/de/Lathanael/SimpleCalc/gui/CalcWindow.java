@@ -217,9 +217,13 @@ public class CalcWindow extends GenericPopup {
 	public void initialisePopup() {
 		SimpleCalc plugin = SimpleCalc.getInstance();
 		expression = new GenericTextField();
-		result = new GenericTextField();
-		result.setHeight(20).setWidth(90).setX(edges.getLeft()).setY(edges.getTop() + 50);
+		expression.setMaximumCharacters(Integer.MAX_VALUE);
+		expression.setMaximumLines(0);
 		expression.setHeight(20).setWidth(90).setX(edges.getLeft()).setY(edges.getTop() + 25);
+		result = new GenericTextField();
+		result.setMaximumCharacters(Integer.MAX_VALUE);
+		result.setMaximumLines(0);
+		result.setHeight(20).setWidth(90).setX(edges.getLeft()).setY(edges.getTop() + 50);
 		attachWidget(plugin, result);
 		attachWidget(plugin, expression);
 	}
