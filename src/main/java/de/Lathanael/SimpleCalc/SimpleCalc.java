@@ -97,7 +97,7 @@ public class SimpleCalc extends JavaPlugin {
 			pm.registerEvents(new SCInputListener(), this);
 		}
 		try {
-			SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open ForceCraft GUI", new SCKeyBinding(), this);
+			SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), this);
 		} catch(IllegalArgumentException e) {
 			log.info("Binding already registered!");
 		}

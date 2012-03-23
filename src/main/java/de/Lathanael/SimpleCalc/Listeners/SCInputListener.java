@@ -18,6 +18,8 @@
 
 package de.Lathanael.SimpleCalc.Listeners;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,6 +28,9 @@ import org.getspout.spoutapi.gui.Screen;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
 import de.Lathanael.SimpleCalc.SimpleCalc;
+import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+import de.Lathanael.SimpleCalc.Parser.MathExpParser;
+import de.Lathanael.SimpleCalc.Tools.CalcKey;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
 
 /**
@@ -42,7 +47,40 @@ public class SCInputListener implements Listener {
 		if (!(screen instanceof CalcWindow))
 			return;
 		CalcWindow w = (CalcWindow) screen;
+		if (w.expression.isFocused())
+			return;
+		Player player = event.getPlayer();
 		Keyboard key = event.getKey();
-		SimpleCalc.log.info("Key pressed: " + event.getKey().toString());
+		String keyName = null;
+		if ((keyName = CalcKey.getKeyString(key.toString())) != null) {
+			if (keyName.equalsIgnoreCase("back")) {
+				String text = w.expression.getText();
+				if (text.length() > 0)
+					text = text.substring(0, text.length()-1);
+				w.expression.setText(text);
+				w.expression.setDirty(true);
+			}
+			else if (keyName.equalsIgnoreCase("")) {
+				String calc = w.expression.getText();
+				calc = calc.replaceAll(" ", "");
+				calc = calc.replaceAll(",", ".");
+				try {
+					MathExpParser eqaution = new MathExpParser(calc, player.getName());
+					double result = eqaution.compute();
+					SimpleCalc.answer.put(player.getName(), result);
+					w.result.setText(w.format.format(result));
+					w.result.setDirty(true);
+				}
+				// The equation given is incorrect!
+				catch(MathSyntaxMismatch mismatch){
+					w.result.setText(ChatColor.RED + mismatch.getMessage());
+					w.result.setDirty(true);
+				}
+			}
+			else {
+				w.expression.setText(w.expression.getText() + keyName);
+				w.expression.setDirty(true);
+			}
+		}
 	}
 }

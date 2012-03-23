@@ -64,7 +64,7 @@ public class CalcWindow extends GenericPopup {
 	private Button plus, minus, divide, power, multiply, remainder, leftParan, rightParan, comma, equal, ac, del, sqrt, ans;
 	private Button close, hide;
 	private Button scViewOn, scViewOff;
-	private DecimalFormat format = new DecimalFormat("#0.00");
+	public DecimalFormat format = new DecimalFormat("#0.00");
 	public ExtrasWindow extras;
 
 	public CalcWindow (SpoutPlayer player, SimpleCalc plugin) {
