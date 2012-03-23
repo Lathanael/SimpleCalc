@@ -38,6 +38,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.keyboard.Keyboard;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
@@ -49,6 +51,7 @@ import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.Tools.Functions;
 import de.Lathanael.SimpleCalc.Tools.VariableKeys;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
+import de.Lathanael.SimpleCalc.gui.SCKeyBinding;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -92,6 +95,11 @@ public class SimpleCalc extends JavaPlugin {
 		if (keysEnabled) {
 			log.info("Listening to keystrokes while CalcWindow is open enabled");
 			pm.registerEvents(new SCInputListener(), this);
+		}
+		try {
+			SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open ForceCraft GUI", new SCKeyBinding(), this);
+		} catch(IllegalArgumentException e) {
+			log.info("Binding already registered!");
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
