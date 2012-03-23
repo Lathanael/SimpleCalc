@@ -53,6 +53,8 @@ public class UnaryFunctions extends Operator {
 			argLess = true;
 		else if (name.toLowerCase().contains("loc"))
 			argLess = true;
+		else if (name.toLowerCase().contains("distance"))
+			argLess = true;
 		else
 			argLess = false;
 		countArg = 0;
@@ -120,6 +122,19 @@ public class UnaryFunctions extends Operator {
 			if (p == null)
 				return 0;
 			return p.getLocation().getZ();
+		} else if (name.equalsIgnoreCase("distance2d")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return Math.sqrt(Math.pow(p.getLocation().getX() - p.getWorld().getSpawnLocation().getX(),2)
+					+ Math.pow(p.getLocation().getZ() - p.getWorld().getSpawnLocation().getZ(),2));
+		} else if (name.equalsIgnoreCase("distance3d")) {
+			if (playerName.equalsIgnoreCase("admin"))
+				return 0;
+			Player p = SimpleCalc.getInstance().getServer().getPlayer(playerName);
+			return Math.sqrt(Math.pow(p.getLocation().getX() - p.getWorld().getSpawnLocation().getX(),2)
+					+ Math.pow(p.getLocation().getZ() - p.getWorld().getSpawnLocation().getZ(),2)
+					+ Math.pow(p.getLocation().getY() - p.getWorld().getSpawnLocation().getY(),2));
 		} else {
 			throw new MathSyntaxMismatch("Object(" + name + ") was declared as a function but could not be matched to any known function.");
 		}
