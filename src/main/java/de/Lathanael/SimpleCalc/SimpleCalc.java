@@ -91,15 +91,15 @@ public class SimpleCalc extends JavaPlugin {
 		if (SCPluginListener.spout != null) {
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
 			pm.registerEvents(SCPlayerListener, this);
+			try {
+				SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), this);
+			} catch(IllegalArgumentException e) {
+				log.info("Binding already registered!");
+			}
 		}
 		if (keysEnabled) {
 			log.info("Listening to keystrokes while CalcWindow is open enabled");
 			pm.registerEvents(new SCInputListener(), this);
-		}
-		try {
-			SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), this);
-		} catch(IllegalArgumentException e) {
-			log.info("Binding already registered!");
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
