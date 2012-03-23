@@ -23,6 +23,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.getspout.spoutapi.event.input.KeyPressedEvent;
 import org.getspout.spoutapi.gui.Screen;
+import org.getspout.spoutapi.keyboard.Keyboard;
 
 import de.Lathanael.SimpleCalc.SimpleCalc;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
@@ -40,6 +41,8 @@ public class SCInputListener implements Listener {
 			return;
 		if (!(screen instanceof CalcWindow))
 			return;
+		CalcWindow w = (CalcWindow) screen;
+		Keyboard key = event.getKey();
 		SimpleCalc.log.info("Key pressed: " + event.getKey().toString());
 	}
 }

@@ -18,7 +18,7 @@
  *
  **************************************************************************/
 
-package de.Lathanael.SimpleCalc.gui;
+package de.Lathanael.SimpleCalc.Listeners;
 
 import org.getspout.spoutapi.event.input.KeyBindingEvent;
 import org.getspout.spoutapi.gui.ScreenType;

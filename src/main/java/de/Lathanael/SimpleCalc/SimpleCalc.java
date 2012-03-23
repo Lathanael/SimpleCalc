@@ -44,6 +44,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
 import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
+import de.Lathanael.SimpleCalc.Listeners.SCKeyBinding;
 import de.Lathanael.SimpleCalc.Listeners.SCPluginListener;
 import de.Lathanael.SimpleCalc.Listeners.SCPlayerListener;
 import de.Lathanael.SimpleCalc.Listeners.SCSpoutScreenListener;
@@ -51,7 +52,6 @@ import de.Lathanael.SimpleCalc.Parser.MathExpParser;
 import de.Lathanael.SimpleCalc.Tools.Functions;
 import de.Lathanael.SimpleCalc.Tools.VariableKeys;
 import de.Lathanael.SimpleCalc.gui.CalcWindow;
-import de.Lathanael.SimpleCalc.gui.SCKeyBinding;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
