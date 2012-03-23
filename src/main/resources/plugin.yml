@@ -11,4 +11,4 @@ commands:
         aliases: [calc, scalc]
         usage: |
             /<command> <exp> - To calculate an expression simply type /<command> [expression], e.g. /<command> 5+3
-            /<command> - Opens this usage information or is Spout is installed a Calculator Window
+            /<command> - Opens this usage information or if Spout is installed a Calculator Window
