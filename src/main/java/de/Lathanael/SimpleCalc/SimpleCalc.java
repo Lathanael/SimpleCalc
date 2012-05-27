@@ -38,11 +38,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+//import org.getspout.spoutapi.SpoutManager;
+//import org.getspout.spoutapi.keyboard.Keyboard;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.keyboard.Keyboard;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
+//import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
+//import de.Lathanael.SimpleCalc.Listeners.SCKeyBinding;
 import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
 import de.Lathanael.SimpleCalc.Listeners.SCKeyBinding;
 import de.Lathanael.SimpleCalc.Listeners.SCPluginListener;
@@ -82,24 +86,32 @@ public class SimpleCalc extends JavaPlugin {
 		instance = this;
 		log = getLogger();
 		createLists();
-		SCPlayerListener = new SCPlayerListener(this);
 		pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(SCPluginListener, this);
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
 		if (SCPluginListener.spout != null) {
+			SCPlayerListener = new SCPlayerListener(this);
 			pm.registerEvents(new SCSpoutScreenListener(this), this);
 			pm.registerEvents(SCPlayerListener, this);
 			try {
 				SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), this);
 			} catch(IllegalArgumentException e) {
 				log.info("Binding already registered!");
+			} catch (NoClassDefFoundError e) {
+
+			} catch (Exception e){
+
 			}
 		}
-		if (keysEnabled) {
+		if (keysEnabled && SCPluginListener.spout != null) {
 			log.info("Listening to keystrokes while CalcWindow is open enabled");
 			pm.registerEvents(new SCInputListener(), this);
+		} else if (SCPluginListener.spout != null && !keysEnabled) {
+			config.set("EnableKeys", false);
+			saveConfig();
+			log.config("Disabled keys in the config because Spout is not installed!");
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
