@@ -276,9 +276,9 @@ public class CalcWindow extends GenericPopup {
 		else if (button.equals(scViewOff))
 			closeExtras();
 		else if (button.equals(close))
-			plugin.closeWindow(player, true);
+			SimpleCalc.spoutSupportClass.closeWindow(player, true);
 		else if (button.equals(hide))
-			plugin.closeWindow(player, false);
+			SimpleCalc.spoutSupportClass.closeWindow(player, false);
 		else if (button.equals(equal)) {
 			String calc = expression.getText();
 			calc = calc.replaceAll(" ", "");

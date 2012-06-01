@@ -38,24 +38,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-//import org.getspout.spoutapi.SpoutManager;
-//import org.getspout.spoutapi.keyboard.Keyboard;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.keyboard.Keyboard;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.Lathanael.SimpleCalc.Exceptions.MathSyntaxMismatch;
-//import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
-//import de.Lathanael.SimpleCalc.Listeners.SCKeyBinding;
-import de.Lathanael.SimpleCalc.Listeners.SCInputListener;
-import de.Lathanael.SimpleCalc.Listeners.SCKeyBinding;
 import de.Lathanael.SimpleCalc.Listeners.SCPluginListener;
-import de.Lathanael.SimpleCalc.Listeners.SCPlayerListener;
-import de.Lathanael.SimpleCalc.Listeners.SCSpoutScreenListener;
 import de.Lathanael.SimpleCalc.Parser.MathExpParser;
+import de.Lathanael.SimpleCalc.SpoutSupport.SCSpout;
 import de.Lathanael.SimpleCalc.Tools.Functions;
 import de.Lathanael.SimpleCalc.Tools.VariableKeys;
-import de.Lathanael.SimpleCalc.gui.CalcWindow;
 
 /**
 * @author Lathanael (aka Philippe Leipold)
@@ -66,14 +55,14 @@ public class SimpleCalc extends JavaPlugin {
 	public static Logger log;
 	public static PluginManager pm;
 	private static SimpleCalc instance;
-	private static Map<SpoutPlayer, CalcWindow> popups = new HashMap<SpoutPlayer, CalcWindow>();
+
 	public static Map<String, Double> answer = new HashMap<String, Double>();
 	public static Map<VariableKeys, Double> variables = new HashMap<VariableKeys, Double>();
 	public static List<String> alphabet = new ArrayList<String>();
 	public static List<String> locs = new ArrayList<String>();
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
-	private static SCPlayerListener SCPlayerListener;
 	private static DecimalFormat format = new DecimalFormat("#0.00");
+	public static SCSpout spoutSupportClass = new SCSpout();
 	private YamlConfiguration config;
 	public static String backgroundURL;
 	public static boolean keysEnabled = false;
@@ -91,28 +80,8 @@ public class SimpleCalc extends JavaPlugin {
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
-		if (SCPluginListener.spout != null) {
-			SCPlayerListener = new SCPlayerListener(this);
-			pm.registerEvents(new SCSpoutScreenListener(this), this);
-			pm.registerEvents(SCPlayerListener, this);
-			try {
-				SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), this);
-			} catch(IllegalArgumentException e) {
-				log.info("Binding already registered!");
-			} catch (NoClassDefFoundError e) {
-
-			} catch (Exception e){
-
-			}
-		}
-		if (keysEnabled && SCPluginListener.spout != null) {
-			log.info("Listening to keystrokes while CalcWindow is open enabled");
-			pm.registerEvents(new SCInputListener(), this);
-		} else if (SCPluginListener.spout != null && !keysEnabled) {
-			config.set("EnableKeys", false);
-			saveConfig();
-			log.config("Disabled keys in the config because Spout is not installed!");
-		}
+		spoutSupportClass.onEnable(this, pm, SCPluginListener, config);
+		saveConfig();
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
 
@@ -126,7 +95,7 @@ public class SimpleCalc extends JavaPlugin {
 			if (sender instanceof ConsoleCommandSender)
 				return false;
 			if (SCPluginListener.spout != null) {
-				openWindow((SpoutPlayer) sender);
+				spoutSupportClass.openWindow((Player) sender);
 				return true;
 			}
 			else {
@@ -209,29 +178,6 @@ public class SimpleCalc extends JavaPlugin {
 
 	public static SimpleCalc getInstance() {
 		return instance;
-	}
-
-	public void openWindow(SpoutPlayer player) {
-		CalcWindow popup = null;
-		if (!popups.containsKey(player)) {
-			popups.put(player, new CalcWindow(player, getInstance()));
-		}
-		popup = popups.get(player);
-		popup.open();
-	}
-
-	public void removePopup(SpoutPlayer player) {
-		popups.remove(player);
-	}
-
-	public void closeWindow(SpoutPlayer player, boolean remove) {
-		if (!popups.containsKey(player)) {
-			log.info("No window for " + player.getName() + " was found!");
-			return;
-		}
-		player.getMainScreen().closePopup();
-		if (remove)
-			removePopup(player);
 	}
 
 	/**

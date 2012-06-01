@@ -35,20 +35,14 @@ import de.Lathanael.SimpleCalc.SimpleCalc;
 */
 public class SCPlayerListener implements Listener {
 
-	private SimpleCalc plugin;
-
-	public SCPlayerListener(SimpleCalc instance) {
-		plugin = instance;
-	}
-
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		plugin.removePopup((SpoutPlayer) event.getPlayer());
+		SimpleCalc.spoutSupportClass.removePopup((SpoutPlayer) event.getPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
-		plugin.removePopup((SpoutPlayer) event.getPlayer());
+		SimpleCalc.spoutSupportClass.removePopup((SpoutPlayer) event.getPlayer());
 	}
 
 }

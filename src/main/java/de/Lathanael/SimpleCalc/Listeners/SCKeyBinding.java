@@ -41,7 +41,7 @@ public class SCKeyBinding implements BindingExecutionDelegate {
 		if (player.getActiveScreen() != ScreenType.GAME_SCREEN)
 			return;
 		if (event.getBinding().getId() == "SimpleCalc GUI") {
-			SimpleCalc.getInstance().openWindow(player);
+			SimpleCalc.spoutSupportClass.openWindow(player);
 		}
 	}
 
