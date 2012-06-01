@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.Lathanael</groupId>
 	<artifactId>SimpleCalc</artifactId>
-	<version>2.4-SNAPSHOT</version>
+	<version>2.4</version>
 	<name>SimpleCalc</name>
 	<scm>
 		<connection>scm:git:git@github.com:Lathanael/SimpleCalc.git</connection>
