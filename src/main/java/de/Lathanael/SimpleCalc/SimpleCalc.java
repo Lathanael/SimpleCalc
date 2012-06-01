@@ -62,7 +62,7 @@ public class SimpleCalc extends JavaPlugin {
 	public static List<String> locs = new ArrayList<String>();
 	private static SCPluginListener SCPluginListener = new SCPluginListener();
 	private static DecimalFormat format = new DecimalFormat("#0.00");
-	public static SCSpout spoutSupportClass = new SCSpout();
+	public static SCSpout spoutSupportClass;
 	private YamlConfiguration config;
 	public static String backgroundURL;
 	public static boolean keysEnabled = false;
@@ -80,8 +80,12 @@ public class SimpleCalc extends JavaPlugin {
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
-		spoutSupportClass.onEnable(this, pm, SCPluginListener, config);
-		saveConfig();
+		try {
+			spoutSupportClass = new SCSpout();
+			spoutSupportClass.onEnable(this, pm, SCPluginListener, config);
+			saveConfig();
+		} catch(Exception e) {
+		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
 

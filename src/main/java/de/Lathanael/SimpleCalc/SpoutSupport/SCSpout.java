@@ -71,7 +71,7 @@ public class SCSpout {
 			removePopup(player);
 	}
 
-	public void onEnable(SimpleCalc plugin, PluginManager pm, SCPluginListener SCPluginListener, YamlConfiguration config) {
+	public void onEnable(SimpleCalc plugin, PluginManager pm, SCPluginListener SCPluginListener, YamlConfiguration config) throws ClassNotFoundException, NoClassDefFoundError {
 		if (SCPluginListener.spout != null) {
 			SCPlayerListener = new SCPlayerListener();
 			pm.registerEvents(new SCSpoutScreenListener(plugin), plugin);
@@ -80,16 +80,12 @@ public class SCSpout {
 				SpoutManager.getKeyBindingManager().registerBinding("SimpleCalc GUI", Keyboard.KEY_C, "Open SimpleCalc GUI", new SCKeyBinding(), plugin);
 			} catch(IllegalArgumentException e) {
 				SimpleCalc.log.info("Binding already registered!");
-			} catch (NoClassDefFoundError e) {
-
-			} catch (Exception e){
-
 			}
 		}
 		if (SimpleCalc.keysEnabled && SCPluginListener.spout != null) {
 			SimpleCalc.log.info("Listening to keystrokes while CalcWindow is open enabled");
 			pm.registerEvents(new SCInputListener(), plugin);
-		} else if (SCPluginListener.spout != null && !SimpleCalc.keysEnabled) {
+		} else if (SCPluginListener.spout == null && SimpleCalc.keysEnabled) {
 			config.set("EnableKeys", false);
 			SimpleCalc.log.config("Disabled keys in the config because Spout is not installed!");
 		}
