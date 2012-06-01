@@ -80,11 +80,13 @@ public class SimpleCalc extends JavaPlugin {
 		loadConfigurationFile();
 		loadConfig(config);
 		SCPluginListener.spoutHook(pm);
-		try {
+		if (SCPluginListener.spout != null) {
 			spoutSupportClass = new SCSpout();
-			spoutSupportClass.onEnable(this, pm, SCPluginListener, config);
+			try {
+				spoutSupportClass.onEnable(this, pm, SCPluginListener, config);
+			} catch (Exception e) {
+			}
 			saveConfig();
-		} catch(Exception e) {
 		}
 		log.info("Version " + this.getDescription().getVersion() + " enabled.");
 	}
