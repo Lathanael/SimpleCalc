@@ -234,22 +234,23 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.4.2-R0.3-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.getspout</groupId>
 			<artifactId>spoutplugin</artifactId>
-			<version>dev-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.2-R0.3-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bukkit.version>1.6.2-R0.2-SNAPSHOT</bukkit.version>
 	</properties>
 </project>
